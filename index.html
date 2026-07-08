@@ -3,6 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12a77b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="跑車薪資">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>跑車薪資計算</title>
   <style>
     :root {
@@ -426,6 +430,52 @@
       border-top: 1px solid rgba(20, 32, 43, .08);
     }
 
+    .goal-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(22, 119, 210, .12), rgba(18, 167, 123, .11));
+      border: 1px solid rgba(22, 119, 210, .16);
+    }
+
+    .goal-card h4 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .goal-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .goal-metrics div {
+      display: grid;
+      gap: 3px;
+    }
+
+    .goal-metrics span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .goal-metrics strong {
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .work-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .work-actions .button {
+      min-height: 50px;
+      font-weight: 800;
+    }
+
     label {
       display: grid;
       gap: 7px;
@@ -708,6 +758,41 @@
       margin-top: 18px;
     }
 
+    .ai-panel {
+      min-height: 360px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 16px;
+      text-align: center;
+      padding: 34px;
+    }
+
+    .ai-mark {
+      width: 68px;
+      height: 68px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2), var(--accent));
+      box-shadow: 0 18px 32px rgba(22, 119, 210, .18);
+    }
+
+    .ai-panel h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .ai-panel p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -844,12 +929,28 @@
 
       .quick-fields,
       .quick-preview,
-      .income-grid {
+      .income-grid,
+      .goal-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .quick-preview .wide {
         grid-column: span 2;
+      }
+
+      .goal-metrics div:last-child {
+        grid-column: span 2;
+      }
+
+      .work-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .income-grid input,
+      .expense-grid input,
+      .quick-fields input {
+        min-height: 54px;
+        font-size: 21px;
       }
 
       .panel-body {
@@ -869,7 +970,20 @@
 
       .nav {
         overflow-x: auto;
-        grid-template-columns: repeat(5, 92px);
+        grid-template-columns: repeat(6, 92px);
+      }
+
+      .week-list,
+      .bars {
+        gap: 16px;
+      }
+
+      .bar-row {
+        gap: 9px;
+      }
+
+      .bar-track {
+        height: 14px;
       }
     }
   </style>
@@ -890,6 +1004,7 @@
         <button data-view="week"><span class="nav-icon">週</span>週報表</button>
         <button data-view="month"><span class="nav-icon">月</span>月報表</button>
         <button data-view="platform"><span class="nav-icon">台</span>平台分析</button>
+        <button data-view="ai"><span class="nav-icon">AI</span>AI 分析</button>
         <button data-view="settings"><span class="nav-icon">設</span>設定</button>
       </nav>
 
@@ -963,6 +1078,13 @@
               </div>
 
               <div class="quick-preview" id="quickPreview"></div>
+
+              <div class="goal-card" id="dailyGoalCard"></div>
+
+              <div class="work-actions">
+                <button class="button secondary" id="startRun" type="button">🚀 開始跑車</button>
+                <button class="button secondary" id="endRun" type="button">🛑 收工</button>
+              </div>
 
               <details class="collapsible">
                 <summary>工時設定</summary>
@@ -1091,6 +1213,14 @@
         </div>
       </section>
 
+      <section id="view-ai" class="view hidden">
+        <div class="panel ai-panel">
+          <div class="ai-mark">AI</div>
+          <h3>AI 分析功能開發中</h3>
+          <p>未來將根據收入、工時、平台與時段，給出最佳跑車建議，例如哪個時段最好賺、哪個平台效率最高、每日建議上線時間。</p>
+        </div>
+      </section>
+
       <section id="view-settings" class="view hidden">
         <div class="layout">
           <div class="panel">
@@ -1130,6 +1260,10 @@
                 <input type="number" id="monthlyGoal" min="0" step="100" placeholder="例如：80000">
               </label>
               <div style="height: 12px"></div>
+              <label>每日收入目標
+                <input type="number" id="dailyGoal" min="0" step="100" placeholder="例如：3000">
+              </label>
+              <div style="height: 12px"></div>
               <button class="button" id="saveGoal">儲存目標</button>
               <div class="settings-actions">
                 <button class="button secondary" id="exportCsv" type="button">匯出 CSV</button>
@@ -1165,6 +1299,7 @@
       week: ["週報表", "比較每一週總額、工時、時薪與淨收入。"],
       month: ["月報表", "追蹤整個月份收入、成本與目標進度。"],
       platform: ["平台分析", "看出 Uber、LINE GO、Yoxi、55688 與其他來源的表現。"],
+      ai: ["AI 分析", "預留未來最佳跑車建議與收入效率分析。"],
       settings: ["設定", "調整平台、支出類別與每月目標。"]
     };
 
@@ -1176,6 +1311,7 @@
       toggleOverview: document.getElementById("toggleOverview"),
       summaryStats: document.getElementById("summaryStats"),
       quickPreview: document.getElementById("quickPreview"),
+      dailyGoalCard: document.getElementById("dailyGoalCard"),
       incomeInputs: document.getElementById("incomeInputs"),
       expenseInputs: document.getElementById("expenseInputs"),
       entryForm: document.getElementById("entryForm"),
@@ -1195,6 +1331,8 @@
       platformChips: document.getElementById("platformChips"),
       platformRateInputs: document.getElementById("platformRateInputs"),
       expenseChips: document.getElementById("expenseChips"),
+      startRun: document.getElementById("startRun"),
+      endRun: document.getElementById("endRun"),
       sideNet: document.getElementById("sideNet"),
       sideGoal: document.getElementById("sideGoal"),
       heroNet: document.getElementById("heroNet"),
@@ -1229,6 +1367,7 @@
       });
       return {
         monthlyGoal: Number(settings.monthlyGoal || 0),
+        dailyGoal: Number(settings.dailyGoal || 0),
         platformRates
       };
     }
@@ -1248,6 +1387,11 @@
     function todayString() {
       const now = new Date();
       return now.toISOString().slice(0, 10);
+    }
+
+    function currentTimeString() {
+      const now = new Date();
+      return `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
     }
 
     function currentMonth() {
@@ -1411,6 +1555,7 @@
       const net = entryNet(entry);
       const hours = calcHours(entry);
       updateRateHints();
+      updateDailyGoal(entry);
       els.quickPreview.innerHTML = `
         <div>
           <span>平台原始</span>
@@ -1431,6 +1576,32 @@
         <div class="wide">
           <span>扣支出後</span>
           <strong>${money(net)}${hours ? ` · ${money(net / hours)}/時` : ""}</strong>
+        </div>
+      `;
+    }
+
+    function updateDailyGoal(entry = formData()) {
+      if (!els.dailyGoalCard) return;
+      const goal = Number(state.settings.dailyGoal || 0);
+      const current = entryTotal(entry);
+      if (!goal) {
+        els.dailyGoalCard.innerHTML = `
+          <h4>今日目標</h4>
+          <div class="goal-metrics">
+            <div><span>目標</span><strong>未設定</strong></div>
+            <div><span>目前收入</span><strong>${money(current)}</strong></div>
+            <div><span>狀態</span><strong>到設定頁新增</strong></div>
+          </div>
+        `;
+        return;
+      }
+      const diff = goal - current;
+      els.dailyGoalCard.innerHTML = `
+        <h4>今日目標</h4>
+        <div class="goal-metrics">
+          <div><span>目標</span><strong>${money(goal)}</strong></div>
+          <div><span>目前收入</span><strong>${money(current)}</strong></div>
+          <div><span>${diff > 0 ? "還差" : "狀態"}</span><strong>${diff > 0 ? money(diff) : "已達標"}</strong></div>
         </div>
       `;
     }
@@ -1626,6 +1797,7 @@
       `).join("");
       els.expenseChips.innerHTML = state.expenses.map(name => chip(name, "expense")).join("");
       document.getElementById("monthlyGoal").value = state.settings.monthlyGoal || "";
+      document.getElementById("dailyGoal").value = state.settings.dailyGoal || "";
     }
 
     function chip(name, type) {
@@ -1781,10 +1953,85 @@
       URL.revokeObjectURL(url);
     }
 
+    function startRunNow() {
+      const startInput = document.getElementById("startTime");
+      if (startInput.value && !confirm("已經有開始時間，要覆蓋成目前時間嗎？")) return;
+      startInput.value = currentTimeString();
+      document.querySelectorAll("#entryForm details")[0].open = true;
+      updateQuickPreview();
+    }
+
+    function endRunNow() {
+      const startInput = document.getElementById("startTime");
+      const endInput = document.getElementById("endTime");
+      if (!startInput.value) {
+        alert("請先按開始跑車。");
+        return;
+      }
+      if (endInput.value && !confirm("已經有收工時間，要覆蓋成目前時間嗎？")) return;
+      endInput.value = currentTimeString();
+      document.querySelectorAll("#entryForm details")[0].open = true;
+      updateQuickPreview();
+    }
+
+    function setupPwa() {
+      const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#12a77b"/><path d="M132 310h248l-24-84c-8-28-34-48-64-48h-72c-30 0-56 20-64 48l-24 84Z" fill="#fff"/><path d="M176 310h160v44H176z" fill="#1677d2"/><circle cx="184" cy="364" r="30" fill="#14202b"/><circle cx="328" cy="364" r="30" fill="#14202b"/><path d="M206 214h100c15 0 28 10 32 24l10 36H164l10-36c4-14 17-24 32-24Z" fill="#f2a51f"/></svg>`;
+      const iconUrl = `data:image/svg+xml,${encodeURIComponent(iconSvg)}`;
+      const appleIcon = document.createElement("link");
+      appleIcon.rel = "apple-touch-icon";
+      appleIcon.href = iconUrl;
+      document.head.appendChild(appleIcon);
+
+      const manifest = {
+        name: "跑車薪資",
+        short_name: "Driver Pay",
+        theme_color: "#12a77b",
+        background_color: "#f6f8fb",
+        display: "standalone",
+        start_url: ".",
+        icons: [
+          { src: iconUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+        ]
+      };
+      const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" }));
+      const manifestLink = document.createElement("link");
+      manifestLink.rel = "manifest";
+      manifestLink.href = manifestUrl;
+      document.head.appendChild(manifestLink);
+
+      if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+        const swCode = `
+          const CACHE_NAME = "driver-pay-v2-cache";
+          const ASSETS = ["./", "./index.html", "./assets/driver-hero.png"];
+          self.addEventListener("install", event => {
+            event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(() => undefined));
+            self.skipWaiting();
+          });
+          self.addEventListener("activate", event => {
+            event.waitUntil(self.clients.claim());
+          });
+          self.addEventListener("fetch", event => {
+            if (event.request.method !== "GET") return;
+            event.respondWith(
+              caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+                const copy = response.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)).catch(() => undefined);
+                return response;
+              }).catch(() => caches.match("./index.html")))
+            );
+          });
+        `;
+        const swUrl = URL.createObjectURL(new Blob([swCode], { type: "text/javascript" }));
+        navigator.serviceWorker.register(swUrl).catch(() => undefined);
+      }
+    }
+
     els.navButtons.forEach(button => button.addEventListener("click", () => setView(button.dataset.view)));
     document.getElementById("newEntry").addEventListener("click", () => { resetForm(); setView("today"); });
     els.cancelEdit.addEventListener("click", resetForm);
     document.getElementById("exportCsv").addEventListener("click", exportCsv);
+    els.startRun.addEventListener("click", startRunNow);
+    els.endRun.addEventListener("click", endRunNow);
     els.toggleOverview.addEventListener("click", () => {
       overviewVisible = !overviewVisible;
       updateOverviewVisibility();
@@ -1851,6 +2098,7 @@
 
     document.getElementById("saveGoal").addEventListener("click", () => {
       state.settings.monthlyGoal = Number(document.getElementById("monthlyGoal").value || 0);
+      state.settings.dailyGoal = Number(document.getElementById("dailyGoal").value || 0);
       saveState();
       renderAll();
     });
@@ -1886,6 +2134,7 @@
     resetForm();
     setView("today");
     updateOverviewVisibility();
+    setupPwa();
   </script>
 </body>
 </html>
