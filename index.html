@@ -1,0 +1,3192 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12a77b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="跑車薪資">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/driver-pay-pro-icon-512.png" type="image/png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/driver-pay-pro-icon-192.png">
+  <title>Driver Pay Pro</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --panel-2: #eef5f7;
+      --text: #14202b;
+      --muted: #677482;
+      --line: #dce5ec;
+      --brand: #12a77b;
+      --brand-2: #1677d2;
+      --accent: #f2a51f;
+      --coral: #f06f5d;
+      --danger: #c84640;
+      --shadow: 0 16px 36px rgba(20, 32, 43, .09);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(18, 167, 123, .18), transparent 28rem),
+        radial-gradient(circle at bottom right, rgba(22, 119, 210, .12), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background:
+        linear-gradient(170deg, rgba(20, 32, 43, .98), rgba(15, 45, 54, .98)),
+        #14202b;
+      color: white;
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 44px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--brand), var(--brand-2));
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(18, 167, 123, .28);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .brand small {
+      color: #b8c7bf;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button {
+      min-height: 42px;
+      border-radius: 8px;
+      color: #dce7e0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 12px;
+      text-align: left;
+    }
+
+    .nav button.active,
+    .nav button:hover {
+      background: linear-gradient(90deg, rgba(18, 167, 123, .25), rgba(22, 119, 210, .18));
+      color: white;
+    }
+
+    .side-summary {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      display: grid;
+      gap: 6px;
+    }
+
+    .side-summary span {
+      color: #b8c7bf;
+      font-size: 13px;
+    }
+
+    .side-summary strong {
+      font-size: 24px;
+    }
+
+    main {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 236px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #14202b;
+      color: white;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.45);
+      display: grid;
+      align-items: end;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10, 22, 30, .86), rgba(10, 22, 30, .38) 48%, rgba(10, 22, 30, .12)),
+        linear-gradient(0deg, rgba(10, 22, 30, .6), transparent 55%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(620px, 100%);
+      padding: 28px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.16);
+      color: #daf7eb;
+      border: 1px solid rgba(255,255,255,.18);
+      font-size: 13px;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.7;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-metric {
+      min-height: 42px;
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
+      display: grid;
+      gap: 2px;
+      min-width: 110px;
+    }
+
+    .hero-metric span {
+      font-size: 12px;
+      color: rgba(255,255,255,.68);
+    }
+
+    .hero-metric strong {
+      font-size: 16px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    .topbar p {
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .overview-toggle-wrap {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .button {
+      min-height: 40px;
+      border-radius: 8px;
+      padding: 0 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      box-shadow: 0 10px 20px rgba(22, 119, 210, .16);
+    }
+
+    .button.secondary {
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .button.danger {
+      background: var(--danger);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #ffffff, #f9fcfd);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-height: 108px;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--brand);
+    }
+
+    .stat:nth-child(2)::before { background: var(--brand-2); }
+    .stat:nth-child(3)::before { background: var(--accent); }
+    .stat:nth-child(4)::before { background: var(--coral); }
+
+    .stat:nth-child(2) em { color: var(--brand-2); }
+    .stat:nth-child(3) em { color: #a66a00; }
+    .stat:nth-child(4) em { color: var(--coral); }
+
+    .stat > * {
+      position: relative;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .stat strong {
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .stat em {
+      font-style: normal;
+      color: var(--brand);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 460px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(180deg, #ffffff, #f8fbfc);
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .quick-fields {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .quick-preview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(18, 167, 123, .12), rgba(242, 165, 31, .13));
+      border: 1px solid rgba(18, 167, 123, .18);
+    }
+
+    .quick-preview div {
+      display: grid;
+      gap: 3px;
+    }
+
+    .quick-preview span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .quick-preview strong {
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .quick-preview .wide {
+      grid-column: span 3;
+      padding-top: 8px;
+      border-top: 1px solid rgba(20, 32, 43, .08);
+    }
+
+    .goal-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(22, 119, 210, .12), rgba(18, 167, 123, .11));
+      border: 1px solid rgba(22, 119, 210, .16);
+    }
+
+    .goal-card h4 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .goal-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .goal-metrics div {
+      display: grid;
+      gap: 3px;
+    }
+
+    .goal-metrics span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .goal-metrics strong {
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .work-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .work-actions .button {
+      min-height: 50px;
+      font-weight: 800;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 76px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(31, 122, 85, .13);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .section-title strong {
+      font-size: 15px;
+    }
+
+    .income-grid,
+    .expense-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .income-grid label {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f8fbfc);
+    }
+
+    .income-grid input {
+      min-height: 52px;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--brand-2);
+    }
+
+    .rate-hint {
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .collapsible {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .collapsible summary {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 700;
+      list-style: none;
+    }
+
+    .collapsible summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .collapsible summary::after {
+      content: "+";
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      font-weight: 800;
+    }
+
+    .collapsible[open] summary::after {
+      content: "−";
+    }
+
+    .collapsible-body {
+      padding: 0 14px 14px;
+    }
+
+    .save-button {
+      min-height: 52px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 34px;
+      border-radius: 8px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(18, 167, 123, .1), rgba(22, 119, 210, .09));
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip button {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      background: rgba(23, 33, 27, .1);
+      color: var(--text);
+    }
+
+    .table-wrap {
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      background: #f9fbfa;
+      position: sticky;
+      top: 0;
+    }
+
+    tfoot th {
+      background: #eef5f7;
+      color: var(--text);
+      font-weight: 800;
+      border-top: 2px solid var(--line);
+    }
+
+    td .muted {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .empty {
+      padding: 34px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 7px;
+    }
+
+    .bar-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .bar-track {
+      height: 12px;
+      border-radius: 8px;
+      background: var(--panel-2);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 8px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2), var(--accent));
+      min-width: 2px;
+    }
+
+    .week-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .week-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(4, 1fr);
+      gap: 12px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .week-item span {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .settings-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .rate-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .rate-grid input {
+      text-align: right;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .ai-panel {
+      min-height: 360px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 16px;
+      text-align: center;
+      padding: 34px;
+    }
+
+    .ai-mark {
+      width: 68px;
+      height: 68px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2), var(--accent));
+      box-shadow: 0 18px 32px rgba(22, 119, 210, .18);
+    }
+
+    .ai-panel h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .ai-panel p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 980px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 14px;
+      }
+
+      .brand {
+        min-height: 38px;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+      }
+
+      .brand h1 {
+        font-size: 17px;
+      }
+
+      .nav {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .nav button {
+        justify-content: center;
+        padding: 0 6px;
+        font-size: 13px;
+      }
+
+      .nav .nav-icon {
+        display: none;
+      }
+
+      .side-summary {
+        display: none;
+      }
+
+      main {
+        padding: 18px;
+      }
+
+      .hero {
+        min-height: 220px;
+      }
+
+      .hero h2 {
+        font-size: 28px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .toolbar {
+        justify-content: stretch;
+      }
+
+      .toolbar .button {
+        flex: 1;
+      }
+
+      .topbar h2 {
+        font-size: 22px;
+      }
+
+      .topbar p {
+        display: none;
+      }
+
+      .overview-toggle-wrap .button {
+        width: 100%;
+      }
+
+      .hero {
+        display: none;
+      }
+
+      .hero::after {
+        background:
+          linear-gradient(90deg, rgba(10, 22, 30, .88), rgba(10, 22, 30, .55)),
+          linear-gradient(0deg, rgba(10, 22, 30, .68), transparent 58%);
+      }
+
+      .hero-content {
+        padding: 20px;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+
+      .stats,
+      .fields,
+      .expense-grid,
+      .rate-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        gap: 10px;
+      }
+
+      .stat {
+        min-height: 92px;
+        padding: 14px;
+      }
+
+      .stat strong {
+        font-size: 24px;
+      }
+
+      .quick-fields,
+      .quick-preview,
+      .income-grid,
+      .goal-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .quick-preview .wide {
+        grid-column: span 2;
+      }
+
+      .goal-metrics div:last-child {
+        grid-column: span 2;
+      }
+
+      .work-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .income-grid input,
+      .expense-grid input,
+      .quick-fields input {
+        min-height: 54px;
+        font-size: 21px;
+      }
+
+      .panel-body {
+        padding: 14px;
+      }
+
+      .save-button {
+        position: sticky;
+        bottom: 10px;
+        z-index: 3;
+        width: 100%;
+      }
+
+      .week-item {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav {
+        overflow-x: auto;
+        grid-template-columns: repeat(6, 92px);
+      }
+
+      .week-list,
+      .bars {
+        gap: 16px;
+      }
+
+      .bar-row {
+        gap: 9px;
+      }
+
+      .bar-track {
+        height: 14px;
+      }
+    }
+
+    /* v0.4 Home — mobile-first driver console */
+    :root {
+      --bg: #f3f5f4;
+      --panel: #ffffff;
+      --panel-2: #f0f4f2;
+      --text: #17211d;
+      --muted: #68736e;
+      --line: #dde4e0;
+      --brand: #15966f;
+      --brand-strong: #087653;
+      --brand-soft: #e3f5ed;
+      --danger: #c8423b;
+      --shadow: 0 4px 18px rgba(26, 48, 38, .06);
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-width: 320px;
+      overflow-x: hidden;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .app {
+      min-height: 100svh;
+      display: block;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      width: 100%;
+      min-height: calc(48px + env(safe-area-inset-top));
+      padding: calc(3px + env(safe-area-inset-top)) 16px 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fbfcfb;
+      color: var(--text);
+      border: 0;
+      border-bottom: 1px solid rgba(221, 228, 224, .9);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .brand {
+      width: auto;
+      min-height: 40px;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand h1 {
+      font-size: 17px;
+      font-weight: 750;
+      letter-spacing: -.02em;
+    }
+
+    .brand small {
+      display: none;
+    }
+
+    .brand-mark {
+      order: 0;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--brand-strong);
+      box-shadow: none;
+      border: 0;
+    }
+
+    .brand-mark img {
+      display: block;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 30;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: calc(62px + env(safe-area-inset-bottom));
+      padding: 6px max(8px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(8px, env(safe-area-inset-left));
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 2px;
+      overflow: visible;
+      background: rgba(255, 255, 255, .96);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -6px 22px rgba(26, 48, 38, .06);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+    }
+
+    .nav button,
+    .nav button:hover {
+      min-width: 0;
+      min-height: 52px;
+      padding: 4px 2px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 3px;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.1;
+    }
+
+    .nav button.active {
+      background: transparent;
+      color: var(--brand-strong);
+      font-weight: 700;
+    }
+
+    .nav .nav-icon {
+      display: block;
+      width: 25px;
+      height: 25px;
+      font-size: 18px;
+      line-height: 25px;
+      text-align: center;
+    }
+
+    .side-summary,
+    .hero,
+    .overview-toggle-wrap,
+    #newEntry {
+      display: none !important;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 8px 12px calc(82px + env(safe-area-inset-bottom));
+      display: grid;
+      gap: 8px;
+    }
+
+    .topbar {
+      align-items: center;
+      gap: 8px;
+      padding: 2px 4px;
+    }
+
+    .topbar h2 {
+      font-size: 24px;
+      letter-spacing: -.02em;
+    }
+
+    .topbar p {
+      display: none;
+    }
+
+    body[data-active-view="today"] .topbar {
+      display: none;
+    }
+
+    .stats {
+      display: block;
+    }
+
+    .today-summary {
+      padding: 14px 17px 13px;
+      border-radius: 20px;
+      color: #fff;
+      background: var(--brand-strong);
+      box-shadow: none;
+    }
+
+    .today-summary-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .today-income {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: clamp(42px, 13vw, 62px);
+      line-height: 1;
+      letter-spacing: -.055em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .today-secondary {
+      margin-top: 12px;
+      padding-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .today-secondary div {
+      min-width: 0;
+    }
+
+    .today-secondary span {
+      display: block;
+      margin-bottom: 3px;
+      color: rgba(255, 255, 255, .7);
+      font-size: 12px;
+    }
+
+    .today-secondary strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .layout,
+    #view-today.layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      min-height: 46px;
+      padding: 12px 16px 8px;
+      background: #fff;
+      border-bottom: 0;
+    }
+
+    .panel-head h3 {
+      font-size: 17px;
+    }
+
+    .panel-body {
+      padding: 6px 14px 12px;
+    }
+
+    .home-work-card {
+      padding: 12px;
+      display: grid;
+      gap: 9px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .work-status-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .work-status-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .work-status-row strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 18px;
+    }
+
+    .work-elapsed {
+      flex: 0 0 auto;
+      color: var(--brand-strong);
+      font-size: 17px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .work-metrics {
+      padding: 7px 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      border-radius: 13px;
+      background: var(--panel-2);
+    }
+
+    .work-metrics div {
+      min-width: 0;
+    }
+
+    .work-metrics span,
+    .work-metrics strong {
+      display: block;
+      text-align: center;
+    }
+
+    .work-metrics span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .work-metrics strong {
+      margin-top: 2px;
+      overflow: hidden;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .work-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .work-actions .button {
+      min-height: 60px;
+      border-radius: 15px;
+      font-size: 17px;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+    }
+
+    .work-actions .button.primary {
+      grid-column: 1 / -1;
+      background: var(--brand);
+    }
+
+    .work-actions .button:active {
+      transform: scale(.985);
+      opacity: .9;
+    }
+
+    .button {
+      min-height: 44px;
+      border-radius: 12px;
+      background: var(--brand);
+      box-shadow: none;
+    }
+
+    .button.secondary {
+      background: #fff;
+    }
+
+    .income-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .platform-row {
+      min-width: 0;
+      padding: 11px 0;
+      display: grid;
+      grid-template-columns: minmax(76px, 1fr) minmax(104px, 1.1fr) 84px;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 1px solid #edf1ef;
+    }
+
+    .platform-row:last-child {
+      border-bottom: 0;
+    }
+
+    .platform-copy {
+      min-width: 0;
+    }
+
+    .platform-name {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .platform-total {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .quick-income-input,
+    .record-amount {
+      width: 100%;
+      min-width: 0;
+      min-height: 50px;
+      padding: 8px 10px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      background: #f9fbfa;
+      font-size: 20px;
+      font-weight: 750;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .quick-income-input:focus,
+    .record-amount:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(21, 150, 111, .13);
+      background: #fff;
+    }
+
+    .quick-income-input.input-error {
+      border-color: var(--danger);
+      animation: input-shake .18s linear 2;
+    }
+
+    @keyframes input-shake {
+      50% { transform: translateX(2px); }
+    }
+
+    .quick-add-button {
+      width: 84px;
+      height: 50px;
+      padding: 0;
+      border-radius: 13px;
+      color: #fff;
+      background: var(--brand);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+    }
+
+    .quick-add-button:active {
+      transform: scale(.96);
+    }
+
+    .goal-card {
+      padding: 14px 15px;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .goal-top,
+    .goal-bottom {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .goal-top span,
+    .goal-bottom span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .goal-top strong {
+      font-size: 15px;
+    }
+
+    .goal-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--panel-2);
+    }
+
+    .goal-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--brand);
+    }
+
+    .recent-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .recent-record {
+      min-width: 0;
+      padding: 9px 0;
+      display: grid;
+      grid-template-columns: minmax(78px, 1fr) minmax(86px, 112px) 40px 40px;
+      gap: 7px;
+      align-items: center;
+      border-bottom: 1px solid #edf1ef;
+    }
+
+    .recent-record:last-child {
+      border-bottom: 0;
+    }
+
+    .recent-record strong,
+    .recent-record small {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .recent-record small {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .record-amount {
+      min-height: 42px;
+      font-size: 16px;
+    }
+
+    .record-action {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      color: var(--brand-strong);
+      background: var(--brand-soft);
+      font-weight: 800;
+    }
+
+    .record-action.delete {
+      color: var(--danger);
+      background: #fff0ef;
+    }
+
+    .details-panel .collapsible {
+      margin-bottom: 10px;
+      border-radius: 14px;
+    }
+
+    .details-panel .collapsible summary {
+      min-height: 50px;
+    }
+
+    .details-panel .save-button {
+      position: static;
+      min-height: 50px;
+      width: 100%;
+    }
+
+    .quick-preview {
+      display: none;
+    }
+
+    .fields,
+    .quick-fields,
+    .expense-grid,
+    .rate-grid {
+      grid-template-columns: 1fr;
+    }
+
+    input,
+    select,
+    textarea {
+      min-height: 46px;
+      border-radius: 12px;
+    }
+
+    .report-switcher {
+      margin-bottom: 12px;
+      padding: 4px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      border-radius: 14px;
+      background: #e8edeb;
+    }
+
+    .report-switcher button {
+      min-height: 40px;
+      border-radius: 10px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .report-switcher button.active {
+      color: var(--text);
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(26, 48, 38, .08);
+    }
+
+    .table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .view > .panel,
+    .view > .layout {
+      min-width: 0;
+    }
+
+    .history-panel {
+      display: none;
+    }
+
+    body[data-active-view="week"] .history-panel {
+      display: block;
+    }
+
+    .ai-panel {
+      min-height: 320px;
+      padding: 24px;
+    }
+
+    .driver-space-note {
+      margin-bottom: 12px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      color: var(--muted);
+      background: var(--brand-soft);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .empty.compact {
+      padding: 13px 4px;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    @media (min-width: 700px) {
+      main {
+        padding-top: 22px;
+      }
+
+      .platform-row {
+        grid-template-columns: minmax(180px, 1fr) 180px 92px;
+      }
+
+      .fields,
+      .expense-grid,
+      .rate-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .layout:not(#view-today) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (display-mode: standalone) {
+      .sidebar {
+        min-height: calc(48px + env(safe-area-inset-top));
+      }
+    }
+
+    @media (max-width: 350px) {
+      .platform-row {
+        grid-template-columns: minmax(0, 1fr) 88px;
+      }
+
+      .platform-copy {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .quick-add-button {
+        width: 88px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="sidebar">
+      <div class="brand">
+        <button class="brand-mark" id="driverSpaceLogo" type="button" aria-label="進入 Driver Space">
+          <img src="assets/driver-pay-pro-master-icon.png" alt="Driver Pay Pro Official App Icon v1.0">
+        </button>
+        <div class="brand-copy">
+          <h1>Driver Pay Pro</h1>
+          <small>多元計程車收入管理</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主選單">
+        <button class="active" data-view="today"><span class="nav-icon">●</span>今天</button>
+        <button data-view="week"><span class="nav-icon">▦</span>月曆</button>
+        <button data-view="platform"><span class="nav-icon">▥</span>分析</button>
+        <button data-view="ai"><span class="nav-icon">✦</span>AI</button>
+        <button data-view="settings"><span class="nav-icon">♙</span>Driver</button>
+      </nav>
+
+      <div class="side-summary">
+        <span>本月淨收入</span>
+        <strong id="sideNet">$0</strong>
+        <span id="sideGoal">尚未設定目標</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="跑車收入視覺總覽">
+        <img src="assets/driver-hero.png" alt="計程車與手機收入儀表板插圖">
+        <div class="hero-content">
+          <span class="hero-kicker">多平台跑車薪資儀表板</span>
+          <h2>每天記錄一分鐘，月底看清楚真正賺多少。</h2>
+          <p>收入、支出、工時、罰單、小費與平台表現集中管理，手機打開也能快速輸入。</p>
+          <div class="hero-metrics">
+            <div class="hero-metric">
+              <span>本月淨收入</span>
+              <strong id="heroNet">$0</strong>
+            </div>
+            <div class="hero-metric">
+              <span>平均時薪</span>
+              <strong id="heroHourly">$0</strong>
+            </div>
+            <div class="hero-metric">
+              <span>本月工時</span>
+              <strong id="heroHours">0 小時</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="topbar">
+        <div>
+          <h2 id="viewTitle">今日輸入</h2>
+          <p id="viewSubtitle">每天花一分鐘記錄收入、工時與支出。</p>
+        </div>
+        <div class="toolbar">
+          <button class="button" id="newEntry">新增今日</button>
+        </div>
+      </section>
+
+      <section class="overview-toggle-wrap" id="overviewToggleWrap">
+        <button class="button secondary" id="toggleOverview" type="button" aria-expanded="false">顯示業績總覽</button>
+      </section>
+
+      <section class="grid stats" id="summaryStats"></section>
+
+      <section id="view-today" class="view layout">
+        <section class="home-work-card" aria-labelledby="workStatusTitle">
+          <div class="work-status-row">
+            <div>
+              <span id="workStatusTitle">今日工作狀態</span>
+              <strong id="workStatusText">尚未開始</strong>
+            </div>
+            <div class="work-elapsed" id="workElapsed">00:00:00</div>
+          </div>
+          <div class="work-metrics" aria-label="今日工時計算">
+            <div><span>總經過</span><strong id="workTotal">0 分</strong></div>
+            <div><span>休息</span><strong id="workBreak">0 分</strong></div>
+            <div><span>實際</span><strong id="workActual">0 分</strong></div>
+          </div>
+          <div class="work-actions">
+            <button class="button primary" id="startRun" type="button">開始跑車</button>
+            <button class="button secondary hidden" id="pauseRun" type="button">暫停休息</button>
+            <button class="button primary hidden" id="resumeRun" type="button">繼續跑車</button>
+            <button class="button secondary hidden" id="endRun" type="button">收工</button>
+          </div>
+        </section>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>平台快速收入</h3>
+          </div>
+          <div class="panel-body">
+            <form id="entryForm">
+              <input type="hidden" id="entryId">
+              <div>
+                <div class="income-grid" id="incomeInputs"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="goal-card" id="dailyGoalCard"></div>
+
+        <div class="panel" id="recentIncomePanel">
+          <div class="panel-head">
+            <h3>最近輸入</h3>
+          </div>
+          <div class="panel-body recent-list" id="recentIncomeList"></div>
+        </div>
+
+        <div class="panel details-panel">
+          <div class="panel-head">
+            <h3 id="formTitle">今日詳細紀錄</h3>
+            <button class="button secondary hidden" id="cancelEdit" type="button">取消編輯</button>
+          </div>
+          <div class="panel-body">
+            <form id="detailForm">
+              <div class="fields quick-fields">
+                <label>日期
+                  <input type="date" id="date" required>
+                </label>
+              </div>
+              <div class="quick-preview" id="quickPreview"></div>
+              <details class="collapsible">
+                <summary>工時設定</summary>
+                <div class="collapsible-body fields">
+                  <label>開始時間
+                    <input type="time" id="startTime">
+                  </label>
+                  <label>結束時間
+                    <input type="time" id="endTime">
+                  </label>
+                  <label>休息分鐘
+                    <input type="number" inputmode="numeric" id="breakMinutes" min="0" step="1" value="0">
+                  </label>
+                  <label>手動工時
+                    <input type="number" inputmode="decimal" id="manualHours" min="0" step="0.25" placeholder="可留空自動算">
+                  </label>
+                </div>
+              </details>
+              <details class="collapsible">
+                <summary>支出與罰單</summary>
+                <div class="collapsible-body expense-grid" id="expenseInputs"></div>
+              </details>
+              <details class="collapsible">
+                <summary>其他資料</summary>
+                <div class="collapsible-body fields">
+                  <label>小費
+                    <input type="number" inputmode="numeric" id="tips" min="0" step="1" value="0">
+                  </label>
+                  <label>班別
+                    <select id="shift">
+                      <option>早班</option><option>午班</option><option>晚班</option><option>大夜班</option><option>全天</option>
+                    </select>
+                  </label>
+                  <label>訂單數
+                    <input type="number" inputmode="numeric" id="orders" min="0" step="1" value="0">
+                  </label>
+                  <label>公里數
+                    <input type="number" inputmode="decimal" id="km" min="0" step="0.1" value="0">
+                  </label>
+                  <label>天氣
+                    <select id="weather">
+                      <option>晴天</option><option>陰天</option><option>雨天</option><option>連假</option><option>特殊活動</option>
+                    </select>
+                  </label>
+                  <label style="grid-column: 1 / -1;">備註
+                    <textarea id="note" placeholder="例如：雨天單多、機場單、車況、塞車路段"></textarea>
+                  </label>
+                </div>
+              </details>
+              <button class="button save-button" type="submit">儲存詳細紀錄</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-week" class="view hidden">
+        <div class="report-switcher" aria-label="報表切換">
+          <button class="active" data-report-view="week">週報</button>
+          <button data-report-view="month">月報</button>
+          <button data-report-view="platform">平台</button>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h3>每週總額</h3>
+            <select id="weekMonthFilter" aria-label="週報月份篩選"></select>
+          </div>
+          <div class="panel-body">
+            <div class="week-list" id="weekList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-month" class="view hidden">
+        <div class="report-switcher" aria-label="報表切換">
+          <button data-report-view="week">週報</button>
+          <button class="active" data-report-view="month">月報</button>
+          <button data-report-view="platform">平台</button>
+        </div>
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>月份選擇</h3>
+            </div>
+            <div class="panel-body">
+              <label>查看月份
+                <select id="monthReportFilter"></select>
+              </label>
+              <div style="height: 16px"></div>
+              <div class="bars" id="goalProgress"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>每日收入走勢</h3>
+            </div>
+            <div class="panel-body">
+              <div class="bars" id="dailyBars"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-platform" class="view hidden">
+        <div class="report-switcher" aria-label="報表切換">
+          <button data-report-view="week">週報</button>
+          <button data-report-view="month">月報</button>
+          <button class="active" data-report-view="platform">平台</button>
+        </div>
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>平台收入占比</h3>
+              <select id="platformMonthFilter"></select>
+            </div>
+            <div class="panel-body">
+              <div class="bars" id="platformBars"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>平台效率</h3>
+            </div>
+            <div class="table-wrap" id="platformTable"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-ai" class="view hidden">
+        <div class="panel ai-panel">
+          <div class="ai-mark">AI</div>
+          <h3>AI 分析功能開發中</h3>
+          <p>未來將根據收入、工時、平台與時段，給出最佳跑車建議，例如哪個時段最好賺、哪個平台效率最高、每日建議上線時間。</p>
+        </div>
+      </section>
+
+      <section id="view-settings" class="view hidden">
+        <div class="driver-space-note">Driver Space 詳細內容將於後續版本開發；目前保留原有平台、費用、目標與匯出設定。</div>
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>收入平台</h3>
+            </div>
+            <div class="panel-body">
+              <div class="settings-row">
+                <label>新增平台
+                  <input id="newPlatformName" placeholder="例如：機場排班">
+                </label>
+                <button class="button" id="addPlatform">新增</button>
+              </div>
+              <div class="chips" id="platformChips"></div>
+              <div style="height: 18px"></div>
+              <h3 style="margin: 0 0 12px; font-size: 16px;">平台實拿比例</h3>
+              <div class="rate-grid" id="platformRateInputs"></div>
+              <div style="height: 12px"></div>
+              <button class="button" id="saveRates">儲存比例</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>支出類別與目標</h3>
+            </div>
+            <div class="panel-body">
+              <div class="settings-row">
+                <label>新增支出類別
+                  <input id="newExpenseName" placeholder="例如：輪胎">
+                </label>
+                <button class="button" id="addExpense">新增</button>
+              </div>
+              <div class="chips" id="expenseChips"></div>
+              <div style="height: 18px"></div>
+              <label>每月淨收入目標
+                <input type="number" id="monthlyGoal" min="0" step="100" placeholder="例如：80000">
+              </label>
+              <div style="height: 12px"></div>
+              <label>每日收入目標
+                <input type="number" id="dailyGoal" min="0" step="100" placeholder="例如：3000">
+              </label>
+              <div style="height: 12px"></div>
+              <button class="button" id="saveGoal">儲存目標</button>
+              <div class="settings-actions">
+                <button class="button secondary" id="exportCsv" type="button">匯出 CSV</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-head"><h3>月份明細</h3><select id="monthFilter" aria-label="月份篩選"></select></div>
+        <div class="table-wrap" id="entriesTable"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const storageKey = "driverPayApp.v2";
+    const defaultPlatforms = ["Uber", "LINE GO", "Yoxi", "55688", "大都會", "台灣大車隊", "路邊客", "自訂"];
+    const defaultExpenses = ["油錢/電費", "洗車", "停車費", "保養", "車租/車貸", "保險", "平台抽成", "罰單", "其他"];
+    const defaultPlatformRates = {
+      "Uber": 100,
+      "LINE GO": 100,
+      "Yoxi": 100,
+      "55688": 85,
+      "大都會": 100,
+      "台灣大車隊": 100,
+      "路邊客": 100,
+      "自訂": 100
+    };
+
+    const state = loadState();
+    let activeView = "today";
+    let overviewVisible = false;
+
+    const titles = {
+      today: ["今日輸入", "每天花一分鐘記錄收入、工時與支出。"],
+      week: ["週報表", "比較每一週總額、工時、時薪與淨收入。"],
+      month: ["月報表", "追蹤整個月份收入、成本與目標進度。"],
+      platform: ["平台分析", "看出 Uber、LINE GO、Yoxi、55688 與其他來源的表現。"],
+      ai: ["AI 分析", "預留未來最佳跑車建議與收入效率分析。"],
+      settings: ["Driver Space", "調整平台、支出類別與收入目標。"]
+    };
+
+    const els = {
+      navButtons: document.querySelectorAll(".nav button"),
+      viewTitle: document.getElementById("viewTitle"),
+      viewSubtitle: document.getElementById("viewSubtitle"),
+      overviewToggleWrap: document.getElementById("overviewToggleWrap"),
+      toggleOverview: document.getElementById("toggleOverview"),
+      summaryStats: document.getElementById("summaryStats"),
+      quickPreview: document.getElementById("quickPreview"),
+      dailyGoalCard: document.getElementById("dailyGoalCard"),
+      incomeInputs: document.getElementById("incomeInputs"),
+      expenseInputs: document.getElementById("expenseInputs"),
+      entryForm: document.getElementById("entryForm"),
+      detailForm: document.getElementById("detailForm"),
+      entryId: document.getElementById("entryId"),
+      formTitle: document.getElementById("formTitle"),
+      cancelEdit: document.getElementById("cancelEdit"),
+      entriesTable: document.getElementById("entriesTable"),
+      monthFilter: document.getElementById("monthFilter"),
+      weekMonthFilter: document.getElementById("weekMonthFilter"),
+      monthReportFilter: document.getElementById("monthReportFilter"),
+      platformMonthFilter: document.getElementById("platformMonthFilter"),
+      weekList: document.getElementById("weekList"),
+      dailyBars: document.getElementById("dailyBars"),
+      goalProgress: document.getElementById("goalProgress"),
+      platformBars: document.getElementById("platformBars"),
+      platformTable: document.getElementById("platformTable"),
+      platformChips: document.getElementById("platformChips"),
+      platformRateInputs: document.getElementById("platformRateInputs"),
+      expenseChips: document.getElementById("expenseChips"),
+      startRun: document.getElementById("startRun"),
+      pauseRun: document.getElementById("pauseRun"),
+      resumeRun: document.getElementById("resumeRun"),
+      endRun: document.getElementById("endRun"),
+      workStatusText: document.getElementById("workStatusText"),
+      workElapsed: document.getElementById("workElapsed"),
+      workTotal: document.getElementById("workTotal"),
+      workBreak: document.getElementById("workBreak"),
+      workActual: document.getElementById("workActual"),
+      recentIncomeList: document.getElementById("recentIncomeList"),
+      recentIncomePanel: document.getElementById("recentIncomePanel"),
+      sideNet: document.getElementById("sideNet"),
+      sideGoal: document.getElementById("sideGoal"),
+      heroNet: document.getElementById("heroNet"),
+      heroHourly: document.getElementById("heroHourly"),
+      heroHours: document.getElementById("heroHours")
+    };
+
+    function loadState() {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          const platforms = parsed.platforms?.length ? parsed.platforms : defaultPlatforms;
+          return {
+            ...parsed,
+            platforms,
+            expenses: parsed.expenses?.length ? parsed.expenses : defaultExpenses,
+            entries: Array.isArray(parsed.entries) ? parsed.entries : [],
+            settings: normalizeSettings(parsed.settings, platforms)
+          };
+        } catch (error) {
+          console.error("無法讀取既有資料，將保留原始 localStorage 內容。", error);
+        }
+      }
+      return {
+        platforms: defaultPlatforms,
+        expenses: defaultExpenses,
+        entries: [],
+        settings: normalizeSettings({ monthlyGoal: 0 }, defaultPlatforms)
+      };
+    }
+
+    function normalizeSettings(settings = {}, platforms = defaultPlatforms) {
+      const platformRates = { ...defaultPlatformRates, ...(settings.platformRates || {}) };
+      platforms.forEach(name => {
+        if (!Number(platformRates[name])) platformRates[name] = 100;
+      });
+      return {
+        ...settings,
+        monthlyGoal: Number(settings.monthlyGoal || 0),
+        dailyGoal: Number(settings.dailyGoal || 0),
+        platformRates
+      };
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function money(value) {
+      return Number(value || 0).toLocaleString("zh-TW", { style: "currency", currency: "TWD", maximumFractionDigits: 0 });
+    }
+
+    function number(value, digits = 1) {
+      return Number(value || 0).toLocaleString("zh-TW", { maximumFractionDigits: digits });
+    }
+
+    function todayString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function currentTimeString() {
+      const now = new Date();
+      return `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    }
+
+    function currentMonth() {
+      return todayString().slice(0, 7);
+    }
+
+    function entryIncome(entry) {
+      return state.platforms.reduce((sum, name) => sum + platformNetAmount(name, entry.incomes?.[name] || 0), 0);
+    }
+
+    function entryGrossIncome(entry) {
+      return Object.values(entry.incomes || {}).reduce((sum, val) => sum + Number(val || 0), 0);
+    }
+
+    function platformRate(name) {
+      return Number(state.settings.platformRates?.[name] ?? defaultPlatformRates[name] ?? 100);
+    }
+
+    function platformNetAmount(name, amount) {
+      return Number(amount || 0) * platformRate(name) / 100;
+    }
+
+    function entryExpenses(entry) {
+      return Object.values(entry.expenses || {}).reduce((sum, val) => sum + Number(val || 0), 0);
+    }
+
+    function entryTotal(entry) {
+      return entryIncome(entry) + Number(entry.tips || 0);
+    }
+
+    function entryNet(entry) {
+      return entryTotal(entry) - entryExpenses(entry);
+    }
+
+    function calcHours(entry) {
+      if (Number(entry.manualHours) > 0) return Number(entry.manualHours);
+      if (entry.workSession) {
+        const session = entry.workSession;
+        let activeMs = Number(session.accumulatedActiveMs || 0);
+        if (session.status === "running" && session.segmentStartedAt) {
+          activeMs += Math.max(0, Date.now() - new Date(session.segmentStartedAt).getTime());
+        }
+        return Math.max(0, activeMs / 3600000);
+      }
+      if (!entry.startTime || !entry.endTime) return 0;
+      const start = minutes(entry.startTime);
+      let end = minutes(entry.endTime);
+      if (end < start) end += 24 * 60;
+      return Math.max(0, (end - start - Number(entry.breakMinutes || 0)) / 60);
+    }
+
+    function minutes(time) {
+      const [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function makeId() {
+      return window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function blankEntry(date = todayString()) {
+      return {
+        id: makeId(),
+        date,
+        shift: "早班",
+        startTime: "",
+        endTime: "",
+        breakMinutes: 0,
+        manualHours: 0,
+        tips: 0,
+        orders: 0,
+        km: 0,
+        weather: "晴天",
+        note: "",
+        incomes: {},
+        expenses: {}
+      };
+    }
+
+    function entryForDate(date = todayString()) {
+      return state.entries.find(entry => entry.date === date);
+    }
+
+    function ensureEntryForDate(date = todayString()) {
+      let entry = entryForDate(date);
+      if (!entry) {
+        entry = blankEntry(date);
+        state.entries.push(entry);
+      }
+      entry.incomes ||= {};
+      entry.expenses ||= {};
+      return entry;
+    }
+
+    function orderedHomePlatforms(entry = entryForDate()) {
+      const defaultOrder = new Map(defaultPlatforms.map((name, index) => [name, index]));
+      return state.platforms.slice().sort((a, b) => {
+        const aHasIncome = Number(entry?.incomes?.[a] || 0) > 0 ? 0 : 1;
+        const bHasIncome = Number(entry?.incomes?.[b] || 0) > 0 ? 0 : 1;
+        if (aHasIncome !== bHasIncome) return aHasIncome - bHasIncome;
+        return (defaultOrder.get(a) ?? 999) - (defaultOrder.get(b) ?? 999);
+      });
+    }
+
+    function selectedMonth(select) {
+      return select.value || currentMonth();
+    }
+
+    function months() {
+      const set = new Set(state.entries.map(entry => entry.date.slice(0, 7)));
+      set.add(currentMonth());
+      return [...set].sort().reverse();
+    }
+
+    function entriesForMonth(month) {
+      return state.entries
+        .filter(entry => entry.date.startsWith(month))
+        .sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    function entriesForCurrentWeek() {
+      const start = weekStart(todayString());
+      return state.entries.filter(entry => weekStart(entry.date) === start);
+    }
+
+    function summarize(entries) {
+      const total = entries.reduce((sum, entry) => sum + entryTotal(entry), 0);
+      const tips = entries.reduce((sum, entry) => sum + Number(entry.tips || 0), 0);
+      const expenses = entries.reduce((sum, entry) => sum + entryExpenses(entry), 0);
+      const hours = entries.reduce((sum, entry) => sum + calcHours(entry), 0);
+      const orders = entries.reduce((sum, entry) => sum + Number(entry.orders || 0), 0);
+      const net = total - expenses;
+      return { total, tips, expenses, hours, orders, net, hourly: hours ? net / hours : 0 };
+    }
+
+    function renderInputs() {
+      const todayEntry = entryForDate();
+      els.incomeInputs.innerHTML = orderedHomePlatforms(todayEntry).map(name => `
+        <div class="platform-row">
+          <div class="platform-copy">
+            <span class="platform-name">${escapeHtml(name)}</span>
+            <span class="platform-total">今日收入 ${money(todayEntry?.incomes?.[name] || 0)}</span>
+          </div>
+          <input type="hidden" value="${Number(todayEntry?.incomes?.[name] || 0)}" data-income="${escapeAttr(name)}">
+          <input class="quick-income-input" type="number" inputmode="numeric" min="1" step="1" placeholder="輸入收入" aria-label="${escapeAttr(name)} 收入" data-quick-income="${escapeAttr(name)}">
+          <button class="quick-add-button" type="button" aria-label="確認加入 ${escapeAttr(name)} 收入" data-add-income="${escapeAttr(name)}">✓ 完成</button>
+        </div>
+      `).join("");
+
+      els.expenseInputs.innerHTML = state.expenses.map(name => `
+        <label>${name}
+          <input type="number" inputmode="numeric" min="0" step="1" value="0" data-expense="${escapeAttr(name)}">
+        </label>
+      `).join("");
+      updateRateHints();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttr(value) {
+      return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+    }
+
+    function fillSelects() {
+      const options = months().map(month => `<option value="${month}">${month}</option>`).join("");
+      [els.monthFilter, els.weekMonthFilter, els.monthReportFilter, els.platformMonthFilter].forEach(select => {
+        const previous = select.value || currentMonth();
+        select.innerHTML = options;
+        select.value = months().includes(previous) ? previous : currentMonth();
+      });
+    }
+
+    function renderStats() {
+      const month = currentMonth();
+      const monthSummary = summarize(entriesForMonth(month));
+      const todayEntry = state.entries.filter(entry => entry.date === todayString());
+      const todaySummary = summarize(todayEntry);
+
+      els.summaryStats.innerHTML = `
+        <article class="today-summary">
+          <span class="today-summary-label">今日收入</span>
+          <strong class="today-income">${money(todaySummary.total)}</strong>
+          <div class="today-secondary">
+            <div><span>今日實際工時</span><strong>${formatHours(todaySummary.hours)}</strong></div>
+            <div><span>目前時薪</span><strong>${money(todaySummary.hourly)}</strong></div>
+          </div>
+        </article>
+      `;
+
+      els.sideNet.textContent = money(monthSummary.net);
+      els.heroNet.textContent = money(monthSummary.net);
+      els.heroHourly.textContent = money(monthSummary.hourly);
+      els.heroHours.textContent = `${number(monthSummary.hours)} 小時`;
+      if (state.settings.monthlyGoal > 0) {
+        const diff = state.settings.monthlyGoal - monthSummary.net;
+        els.sideGoal.textContent = diff > 0 ? `離目標還差 ${money(diff)}` : `已超過目標 ${money(Math.abs(diff))}`;
+      } else {
+        els.sideGoal.textContent = "尚未設定目標";
+      }
+    }
+
+    function updateOverviewVisibility() {
+      const isToday = activeView === "today";
+      els.overviewToggleWrap.classList.add("hidden");
+      els.summaryStats.classList.toggle("hidden", !isToday);
+    }
+
+    function formatHours(hours) {
+      const totalMinutes = Math.max(0, Math.floor(Number(hours || 0) * 60));
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      return `${h} 小時 ${String(m).padStart(2, "0")} 分`;
+    }
+
+    function updateQuickPreview() {
+      if (!els.quickPreview) return;
+      const entry = formData();
+      const income = entryIncome(entry);
+      const grossIncome = entryGrossIncome(entry);
+      const expenses = entryExpenses(entry);
+      const total = entryTotal(entry);
+      const net = entryNet(entry);
+      const hours = calcHours(entry);
+      updateRateHints();
+      updateDailyGoal();
+      els.quickPreview.innerHTML = `
+        <div>
+          <span>平台原始</span>
+          <strong>${money(grossIncome)}</strong>
+        </div>
+        <div>
+          <span>平台實拿</span>
+          <strong>${money(income)}</strong>
+        </div>
+        <div>
+          <span>小費</span>
+          <strong>${money(entry.tips)}</strong>
+        </div>
+        <div>
+          <span>今日業績</span>
+          <strong>${money(total)}</strong>
+        </div>
+        <div class="wide">
+          <span>扣支出後</span>
+          <strong>${money(net)}${hours ? ` · ${money(net / hours)}/時` : ""}</strong>
+        </div>
+      `;
+    }
+
+    function updateDailyGoal(entry = entryForDate() || blankEntry()) {
+      if (!els.dailyGoalCard) return;
+      const goal = Number(state.settings.dailyGoal || 0);
+      const current = entryTotal(entry);
+      if (!goal) {
+        els.dailyGoalCard.innerHTML = `
+          <div class="goal-top"><strong>今日目標</strong><span>尚未設定</span></div>
+          <div class="goal-bottom"><span>目前收入</span><strong>${money(current)}</strong></div>
+        `;
+        return;
+      }
+      const diff = goal - current;
+      const percent = Math.max(0, Math.round(current / goal * 100));
+      els.dailyGoalCard.innerHTML = `
+        <div class="goal-top"><strong>今日目標 ${money(goal)}</strong><span>${percent}%</span></div>
+        <div class="goal-track"><div class="goal-fill" style="width:${Math.min(100, percent)}%"></div></div>
+        <div class="goal-bottom"><span>目前 ${money(current)}</span><strong>${diff > 0 ? `尚差 ${money(diff)}` : "已達標"}</strong></div>
+      `;
+    }
+
+    function updateRateHints() {
+      document.querySelectorAll("[data-rate-hint]").forEach(hint => {
+        const name = hint.dataset.rateHint;
+        const input = document.querySelector(`[data-income="${cssEscape(name)}"]`);
+        const gross = Number(input?.value || 0);
+        const rate = platformRate(name);
+        hint.textContent = rate === 100
+          ? "實拿 100%"
+          : `實拿約 ${money(platformNetAmount(name, gross))}，比例 ${number(rate, 2)}%`;
+      });
+    }
+
+    function cssEscape(value) {
+      if (window.CSS?.escape) return CSS.escape(value);
+      return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+    }
+
+    function renderEntries() {
+      const entries = entriesForMonth(selectedMonth(els.monthFilter));
+      if (!entries.length) {
+        els.entriesTable.innerHTML = `<div class="empty">這個月份還沒有紀錄。</div>`;
+        return;
+      }
+
+      els.entriesTable.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              ${state.platforms.map(name => `<th>${name}</th>`).join("")}
+              <th>Tips</th>
+              <th>合計</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${entries.map(entry => {
+              return `
+                <tr>
+                  <td>${entry.date}<div class="muted">${entry.shift || ""} ${entry.weather || ""}</div></td>
+                  ${state.platforms.map(name => `<td>${Number(entry.incomes?.[name] || 0) ? money(entry.incomes[name]) : ""}</td>`).join("")}
+                  <td>${money(entry.tips)}</td>
+                  <td>${money(entryTotal(entry))}<div class="muted">淨 ${money(entryNet(entry))}</div></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="icon-button" title="編輯" data-edit="${entry.id}">編</button>
+                      <button class="icon-button" title="刪除" data-delete="${entry.id}">刪</button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>TOTAL</th>
+              ${state.platforms.map(name => {
+                const sum = entries.reduce((total, entry) => total + Number(entry.incomes?.[name] || 0), 0);
+                return `<th>${sum ? money(sum) : ""}</th>`;
+              }).join("")}
+              <th>${money(entries.reduce((total, entry) => total + Number(entry.tips || 0), 0))}</th>
+              <th>${money(entries.reduce((total, entry) => total + entryTotal(entry), 0))}</th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+    }
+
+    function weekStart(dateString) {
+      const date = new Date(`${dateString}T00:00:00`);
+      const day = date.getDay() || 7;
+      date.setDate(date.getDate() - day + 1);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function renderWeeks() {
+      const month = selectedMonth(els.weekMonthFilter);
+      const groups = new Map();
+      entriesForMonth(month).forEach(entry => {
+        const key = weekStart(entry.date);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(entry);
+      });
+
+      if (!groups.size) {
+        els.weekList.innerHTML = `<div class="empty">這個月份還沒有週資料。</div>`;
+        return;
+      }
+
+      els.weekList.innerHTML = [...groups.entries()].sort((a, b) => b[0].localeCompare(a[0])).map(([start, entries]) => {
+        const summary = summarize(entries);
+        const endDate = new Date(`${start}T00:00:00`);
+        endDate.setDate(endDate.getDate() + 6);
+        return `
+          <div class="week-item">
+            <div><span>週期</span><strong>${start} - ${endDate.toISOString().slice(0, 10)}</strong></div>
+            <div><span>總額</span><strong>${money(summary.total)}</strong></div>
+            <div><span>淨收入</span><strong>${money(summary.net)}</strong></div>
+            <div><span>工時</span><strong>${number(summary.hours)} 小時</strong></div>
+            <div><span>平均時薪</span><strong>${money(summary.hourly)}</strong></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderMonthReport() {
+      const entries = entriesForMonth(selectedMonth(els.monthReportFilter)).sort((a, b) => a.date.localeCompare(b.date));
+      const summary = summarize(entries);
+      const goal = Number(state.settings.monthlyGoal || 0);
+      const percent = goal ? Math.min(100, Math.round(summary.net / goal * 100)) : 0;
+
+      els.goalProgress.innerHTML = goal ? `
+        <div class="bar-row">
+          <div class="bar-top"><strong>目標進度</strong><span>${percent}%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${percent}%"></div></div>
+          <div class="bar-top"><span>目前 ${money(summary.net)}</span><span>目標 ${money(goal)}</span></div>
+        </div>
+      ` : `<div class="empty">到設定頁輸入每月目標，就能看到進度。</div>`;
+
+      if (!entries.length) {
+        els.dailyBars.innerHTML = `<div class="empty">這個月份還沒有紀錄。</div>`;
+        return;
+      }
+
+      const max = Math.max(...entries.map(entry => entryTotal(entry)), 1);
+      els.dailyBars.innerHTML = entries.map(entry => {
+        const width = Math.round(entryTotal(entry) / max * 100);
+        return `
+          <div class="bar-row">
+            <div class="bar-top"><strong>${entry.date}</strong><span>${money(entryTotal(entry))}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderPlatformReport() {
+      const entries = entriesForMonth(selectedMonth(els.platformMonthFilter));
+      const totals = Object.fromEntries(state.platforms.map(name => [name, 0]));
+      entries.forEach(entry => {
+        Object.entries(entry.incomes || {}).forEach(([name, value]) => {
+          totals[name] = (totals[name] || 0) + platformNetAmount(name, value);
+        });
+      });
+
+      const rows = Object.entries(totals).filter(([, value]) => value > 0).sort((a, b) => b[1] - a[1]);
+      const total = rows.reduce((sum, [, value]) => sum + value, 0);
+
+      if (!rows.length) {
+        els.platformBars.innerHTML = `<div class="empty">這個月份還沒有平台收入。</div>`;
+        els.platformTable.innerHTML = `<div class="empty">尚無資料可分析。</div>`;
+        return;
+      }
+
+      els.platformBars.innerHTML = rows.map(([name, value]) => {
+        const percent = total ? Math.round(value / total * 100) : 0;
+        return `
+          <div class="bar-row">
+            <div class="bar-top"><strong>${name}</strong><span>${money(value)} · ${percent}%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${percent}%"></div></div>
+          </div>
+        `;
+      }).join("");
+
+      els.platformTable.innerHTML = `
+        <table>
+          <thead><tr><th>平台</th><th>實拿收入</th><th>比例</th><th>日均</th></tr></thead>
+          <tbody>
+            ${rows.map(([name, value]) => `
+              <tr>
+                <td>${name}</td>
+                <td>${money(value)}</td>
+                <td>${Math.round(value / total * 100)}%</td>
+                <td>${money(value / Math.max(entries.length, 1))}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderSettings() {
+      els.platformChips.innerHTML = state.platforms.map(name => chip(name, "platform")).join("");
+      els.platformRateInputs.innerHTML = state.platforms.map(name => `
+        <label>${name} 實拿比例 %
+          <input type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${platformRate(name)}" data-platform-rate="${escapeAttr(name)}">
+        </label>
+      `).join("");
+      els.expenseChips.innerHTML = state.expenses.map(name => chip(name, "expense")).join("");
+      document.getElementById("monthlyGoal").value = state.settings.monthlyGoal || "";
+      document.getElementById("dailyGoal").value = state.settings.dailyGoal || "";
+    }
+
+    function chip(name, type) {
+      return `<span class="chip">${name}<button title="移除" data-remove-${type}="${escapeAttr(name)}">×</button></span>`;
+    }
+
+    function renderRecentIncome() {
+      const entry = entryForDate();
+      const records = Array.isArray(entry?.incomeRecords) ? entry.incomeRecords.slice().reverse().slice(0, 6) : [];
+      els.recentIncomePanel.classList.toggle("hidden", !records.length);
+      if (!records.length) {
+        els.recentIncomeList.innerHTML = `<div class="empty compact">快速輸入後，最近紀錄會顯示在這裡。</div>`;
+        return;
+      }
+      els.recentIncomeList.innerHTML = records.map(record => `
+        <div class="recent-record">
+          <div>
+            <strong>${escapeHtml(record.platform)}</strong>
+            <small>${formatRecordTime(record.createdAt)}</small>
+          </div>
+          <input class="record-amount" type="number" inputmode="numeric" min="1" step="1" value="${Number(record.amount || 0)}" aria-label="修改 ${escapeAttr(record.platform)} 收入" data-record-amount="${escapeAttr(record.id)}">
+          <button class="record-action" type="button" aria-label="儲存修改" data-update-income-record="${escapeAttr(record.id)}">✓</button>
+          <button class="record-action delete" type="button" aria-label="刪除紀錄" data-delete-income-record="${escapeAttr(record.id)}">×</button>
+        </div>
+      `).join("");
+    }
+
+    function formatRecordTime(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "今天";
+      return date.toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit", hour12: false });
+    }
+
+    function workStatus(entry = entryForDate()) {
+      if (entry?.workSession?.status) return entry.workSession.status;
+      if (entry?.startTime && !entry?.endTime) return "running";
+      if (entry?.startTime && entry?.endTime) return "stopped";
+      return "idle";
+    }
+
+    function sessionDetails(entry = entryForDate()) {
+      const hours = calcHours(entry || {});
+      const session = entry?.workSession;
+      let breakMs = Number(session?.accumulatedBreakMs || 0);
+      if (session?.status === "paused" && session.pausedAt) {
+        breakMs += Math.max(0, Date.now() - new Date(session.pausedAt).getTime());
+      }
+      if (!session) breakMs = Number(entry?.breakMinutes || 0) * 60000;
+      let elapsedMs = 0;
+      if (session?.startedAt) {
+        const end = session.endedAt ? new Date(session.endedAt).getTime() : Date.now();
+        elapsedMs = Math.max(0, end - new Date(session.startedAt).getTime());
+      } else if (entry?.startTime) {
+        const start = new Date(`${entry.date || todayString()}T${entry.startTime}:00`).getTime();
+        const end = entry.endTime ? new Date(`${entry.date || todayString()}T${entry.endTime}:00`).getTime() : Date.now();
+        elapsedMs = Math.max(0, end < start ? end + 86400000 - start : end - start);
+      }
+      return { hours, breakMs, elapsedMs };
+    }
+
+    function clockDuration(ms) {
+      const seconds = Math.max(0, Math.floor(Number(ms || 0) / 1000));
+      const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor(seconds % 3600 / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateWorkControls() {
+      const entry = entryForDate();
+      const status = workStatus(entry);
+      const details = sessionDetails(entry);
+      const labels = {
+        idle: "尚未開始",
+        running: "跑車中",
+        paused: "休息中",
+        stopped: "今日已收工"
+      };
+      els.workStatusText.textContent = labels[status];
+      els.workElapsed.textContent = clockDuration(details.elapsedMs);
+      els.workTotal.textContent = clockDuration(details.elapsedMs);
+      els.workBreak.textContent = clockDuration(details.breakMs);
+      els.workActual.textContent = clockDuration(details.hours * 3600000);
+      els.startRun.classList.toggle("hidden", !["idle", "stopped"].includes(status));
+      els.startRun.textContent = status === "stopped" ? "再次開始" : "開始跑車";
+      els.pauseRun.classList.toggle("hidden", status !== "running");
+      els.resumeRun.classList.toggle("hidden", status !== "paused");
+      els.endRun.classList.toggle("hidden", !["running", "paused"].includes(status));
+    }
+
+    function compactDuration(ms) {
+      const totalMinutes = Math.max(0, Math.floor(Number(ms || 0) / 60000));
+      const hours = Math.floor(totalMinutes / 60);
+      const mins = totalMinutes % 60;
+      return hours ? `${hours}時 ${mins}分` : `${mins} 分`;
+    }
+
+    function refreshToday() {
+      renderInputs();
+      renderStats();
+      updateDailyGoal();
+      renderRecentIncome();
+      updateWorkControls();
+      renderEntries();
+      renderWeeks();
+      renderMonthReport();
+      renderPlatformReport();
+    }
+
+    function renderAll() {
+      renderInputs();
+      fillSelects();
+      renderStats();
+      renderEntries();
+      renderWeeks();
+      renderMonthReport();
+      renderPlatformReport();
+      renderSettings();
+      renderRecentIncome();
+      updateWorkControls();
+      updateQuickPreview();
+    }
+
+    function setView(view) {
+      activeView = view;
+      document.querySelectorAll(".view").forEach(section => section.classList.add("hidden"));
+      document.getElementById(`view-${view}`).classList.remove("hidden");
+      const navView = view === "month" ? "platform" : view;
+      els.navButtons.forEach(button => button.classList.toggle("active", button.dataset.view === navView));
+      els.viewTitle.textContent = titles[view][0];
+      els.viewSubtitle.textContent = titles[view][1];
+      document.body.dataset.activeView = view;
+      document.getElementById("newEntry").classList.toggle("hidden", view === "today");
+      updateOverviewVisibility();
+    }
+
+    function resetForm() {
+      els.entryForm.reset();
+      els.detailForm.reset();
+      els.entryId.value = "";
+      document.getElementById("date").value = todayString();
+      document.getElementById("breakMinutes").value = 0;
+      document.getElementById("tips").value = 0;
+      document.getElementById("orders").value = 0;
+      document.getElementById("km").value = 0;
+      document.querySelectorAll("[data-income], [data-expense]").forEach(input => input.value = 0);
+      const todayEntry = state.entries.find(entry => entry.date === todayString());
+      if (todayEntry) {
+        fillEntryFields(todayEntry);
+        els.formTitle.textContent = "更新今日紀錄";
+      } else {
+        els.formTitle.textContent = "新增紀錄";
+      }
+      els.cancelEdit.classList.add("hidden");
+      document.querySelectorAll("#detailForm details").forEach(details => details.open = false);
+      updateQuickPreview();
+    }
+
+    function fillEntryFields(entry) {
+      els.entryId.value = entry.id;
+      document.getElementById("date").value = entry.date;
+      document.getElementById("shift").value = entry.shift || "早班";
+      document.getElementById("startTime").value = entry.startTime || "";
+      document.getElementById("endTime").value = entry.endTime || "";
+      document.getElementById("breakMinutes").value = entry.breakMinutes || 0;
+      document.getElementById("manualHours").value = entry.manualHours || "";
+      document.getElementById("tips").value = entry.tips || 0;
+      document.getElementById("orders").value = entry.orders || 0;
+      document.getElementById("km").value = entry.km || 0;
+      document.getElementById("weather").value = entry.weather || "晴天";
+      document.getElementById("note").value = entry.note || "";
+      document.querySelectorAll("[data-income]").forEach(input => input.value = entry.incomes?.[input.dataset.income] || 0);
+      document.querySelectorAll("[data-expense]").forEach(input => input.value = entry.expenses?.[input.dataset.expense] || 0);
+    }
+
+    function editEntry(id) {
+      const entry = state.entries.find(item => item.id === id);
+      if (!entry) return;
+      setView("today");
+      fillEntryFields(entry);
+      const detailSections = document.querySelectorAll("#detailForm details");
+      detailSections.forEach(details => details.open = false);
+      detailSections[0].open = Boolean(entry.startTime || entry.endTime || entry.manualHours || entry.breakMinutes);
+      detailSections[1].open = entryExpenses(entry) > 0;
+      detailSections[2].open = Boolean(entry.orders || entry.km || entry.note || entry.weather || entry.shift);
+      els.formTitle.textContent = "編輯紀錄";
+      els.cancelEdit.classList.remove("hidden");
+      updateQuickPreview();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deleteEntry(id) {
+      if (!confirm("確定要刪除這筆紀錄嗎？")) return;
+      state.entries = state.entries.filter(entry => entry.id !== id);
+      saveState();
+      renderAll();
+    }
+
+    function formData() {
+      const incomes = {};
+      document.querySelectorAll("[data-income]").forEach(input => incomes[input.dataset.income] = Number(input.value || 0));
+      const expenses = {};
+      document.querySelectorAll("[data-expense]").forEach(input => expenses[input.dataset.expense] = Number(input.value || 0));
+      return {
+        id: els.entryId.value || makeId(),
+        date: document.getElementById("date").value,
+        shift: document.getElementById("shift").value,
+        startTime: document.getElementById("startTime").value,
+        endTime: document.getElementById("endTime").value,
+        breakMinutes: Number(document.getElementById("breakMinutes").value || 0),
+        manualHours: Number(document.getElementById("manualHours").value || 0),
+        tips: Number(document.getElementById("tips").value || 0),
+        orders: Number(document.getElementById("orders").value || 0),
+        km: Number(document.getElementById("km").value || 0),
+        weather: document.getElementById("weather").value,
+        note: document.getElementById("note").value.trim(),
+        incomes,
+        expenses
+      };
+    }
+
+    function exportCsv() {
+      const platformHeaders = state.platforms.flatMap(name => [`${name}原始`, `${name}實拿`, `${name}比例%`]);
+      const headers = ["日期", "班別", "平台原始總額", "總額", "小費", "支出", "淨收入", "工時", "時薪", "訂單數", "公里數", "天氣", ...platformHeaders, ...state.expenses, "備註"];
+      const rows = state.entries
+        .slice()
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map(entry => {
+          const hours = calcHours(entry);
+          return [
+            entry.date,
+            entry.shift,
+            entryGrossIncome(entry),
+            entryTotal(entry),
+            entry.tips,
+            entryExpenses(entry),
+            entryNet(entry),
+            hours,
+            hours ? entryNet(entry) / hours : 0,
+            entry.orders,
+            entry.km,
+            entry.weather,
+            ...state.platforms.flatMap(name => [
+              entry.incomes?.[name] || 0,
+              platformNetAmount(name, entry.incomes?.[name] || 0),
+              platformRate(name)
+            ]),
+            ...state.expenses.map(name => entry.expenses?.[name] || 0),
+            entry.note || ""
+          ];
+        });
+      const csv = [headers, ...rows]
+        .map(row => row.map(cell => `"${String(cell ?? "").replaceAll('"', '""')}"`).join(","))
+        .join("\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `跑車薪資-${todayString()}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function startRunNow() {
+      const entry = ensureEntryForDate();
+      const now = new Date();
+      const priorHours = entry.workSession?.status === "stopped" ? calcHours(entry) : 0;
+      const stoppedGapMs = entry.workSession?.status === "stopped" && entry.workSession.endedAt
+        ? Math.max(0, now.getTime() - new Date(entry.workSession.endedAt).getTime())
+        : 0;
+      const priorBreakMs = entry.workSession?.status === "stopped"
+        ? Number(entry.workSession.accumulatedBreakMs || 0) + stoppedGapMs
+        : 0;
+      entry.startTime ||= currentTimeString();
+      entry.endTime = "";
+      entry.manualHours = 0;
+      entry.workSession = {
+        status: "running",
+        startedAt: entry.workSession?.startedAt || now.toISOString(),
+        segmentStartedAt: now.toISOString(),
+        accumulatedActiveMs: priorHours * 3600000,
+        accumulatedBreakMs: priorBreakMs,
+        pausedAt: null,
+        endedAt: null
+      };
+      saveState();
+      resetForm();
+      refreshToday();
+    }
+
+    function pauseRunNow() {
+      const entry = entryForDate();
+      if (!entry || workStatus(entry) !== "running") return;
+      const now = new Date();
+      if (!entry.workSession) {
+        const startedAt = new Date(`${entry.date}T${entry.startTime || currentTimeString()}:00`);
+        entry.workSession = {
+          status: "running",
+          startedAt: startedAt.toISOString(),
+          segmentStartedAt: startedAt.toISOString(),
+          accumulatedActiveMs: 0,
+          accumulatedBreakMs: Number(entry.breakMinutes || 0) * 60000
+        };
+      }
+      entry.workSession.accumulatedActiveMs = Number(entry.workSession.accumulatedActiveMs || 0)
+        + Math.max(0, now.getTime() - new Date(entry.workSession.segmentStartedAt).getTime());
+      entry.workSession.status = "paused";
+      entry.workSession.pausedAt = now.toISOString();
+      entry.workSession.segmentStartedAt = null;
+      saveState();
+      resetForm();
+      refreshToday();
+    }
+
+    function resumeRunNow() {
+      const entry = entryForDate();
+      if (!entry?.workSession || entry.workSession.status !== "paused") return;
+      const now = new Date();
+      entry.workSession.accumulatedBreakMs = Number(entry.workSession.accumulatedBreakMs || 0)
+        + Math.max(0, now.getTime() - new Date(entry.workSession.pausedAt).getTime());
+      entry.workSession.status = "running";
+      entry.workSession.segmentStartedAt = now.toISOString();
+      entry.workSession.pausedAt = null;
+      entry.breakMinutes = Math.floor(entry.workSession.accumulatedBreakMs / 60000);
+      saveState();
+      resetForm();
+      refreshToday();
+    }
+
+    function endRunNow() {
+      const entry = entryForDate();
+      if (!entry || !["running", "paused"].includes(workStatus(entry))) return;
+      const now = new Date();
+      if (!entry.workSession) {
+        const startedAt = new Date(`${entry.date}T${entry.startTime || currentTimeString()}:00`);
+        entry.workSession = {
+          status: "running",
+          startedAt: startedAt.toISOString(),
+          segmentStartedAt: startedAt.toISOString(),
+          accumulatedActiveMs: 0,
+          accumulatedBreakMs: Number(entry.breakMinutes || 0) * 60000
+        };
+      }
+      if (entry.workSession.status === "running" && entry.workSession.segmentStartedAt) {
+        entry.workSession.accumulatedActiveMs = Number(entry.workSession.accumulatedActiveMs || 0)
+          + Math.max(0, now.getTime() - new Date(entry.workSession.segmentStartedAt).getTime());
+      }
+      if (entry.workSession.status === "paused" && entry.workSession.pausedAt) {
+        entry.workSession.accumulatedBreakMs = Number(entry.workSession.accumulatedBreakMs || 0)
+          + Math.max(0, now.getTime() - new Date(entry.workSession.pausedAt).getTime());
+      }
+      entry.workSession.status = "stopped";
+      entry.workSession.endedAt = now.toISOString();
+      entry.workSession.segmentStartedAt = null;
+      entry.workSession.pausedAt = null;
+      entry.endTime = currentTimeString();
+      entry.breakMinutes = Math.floor(Number(entry.workSession.accumulatedBreakMs || 0) / 60000);
+      saveState();
+      resetForm();
+      refreshToday();
+    }
+
+    function addQuickIncome(platform, input) {
+      const amount = Number(input?.value || 0);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        input?.classList.add("input-error");
+        input?.focus();
+        window.setTimeout(() => input?.classList.remove("input-error"), 500);
+        return;
+      }
+      const entry = ensureEntryForDate();
+      entry.incomes[platform] = Number(entry.incomes[platform] || 0) + amount;
+      entry.incomeRecords ||= [];
+      entry.incomeRecords.push({
+        id: makeId(),
+        platform,
+        amount,
+        createdAt: new Date().toISOString()
+      });
+      saveState();
+      refreshToday();
+      resetForm();
+    }
+
+    function updateIncomeRecord(recordId) {
+      const entry = entryForDate();
+      const record = entry?.incomeRecords?.find(item => item.id === recordId);
+      const input = els.recentIncomeList.querySelector(`[data-record-amount="${cssEscape(recordId)}"]`);
+      const amount = Number(input?.value || 0);
+      if (!record || !Number.isFinite(amount) || amount <= 0) {
+        input?.focus();
+        return;
+      }
+      const difference = amount - Number(record.amount || 0);
+      entry.incomes[record.platform] = Math.max(0, Number(entry.incomes?.[record.platform] || 0) + difference);
+      record.amount = amount;
+      record.updatedAt = new Date().toISOString();
+      saveState();
+      refreshToday();
+      resetForm();
+    }
+
+    function deleteIncomeRecord(recordId) {
+      const entry = entryForDate();
+      const record = entry?.incomeRecords?.find(item => item.id === recordId);
+      if (!entry || !record) return;
+      entry.incomes[record.platform] = Math.max(0, Number(entry.incomes?.[record.platform] || 0) - Number(record.amount || 0));
+      entry.incomeRecords = entry.incomeRecords.filter(item => item.id !== recordId);
+      saveState();
+      refreshToday();
+      resetForm();
+    }
+
+    function setupPwa() {
+      if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+        navigator.serviceWorker.register("./sw.js").catch(error => console.warn("PWA 離線快取未啟用", error));
+      }
+    }
+
+    els.navButtons.forEach(button => button.addEventListener("click", () => setView(button.dataset.view)));
+    document.getElementById("newEntry").addEventListener("click", () => { resetForm(); setView("today"); });
+    els.cancelEdit.addEventListener("click", resetForm);
+    document.getElementById("exportCsv").addEventListener("click", exportCsv);
+    els.startRun.addEventListener("click", startRunNow);
+    els.pauseRun.addEventListener("click", pauseRunNow);
+    els.resumeRun.addEventListener("click", resumeRunNow);
+    els.endRun.addEventListener("click", endRunNow);
+    els.toggleOverview.addEventListener("click", () => {
+      overviewVisible = !overviewVisible;
+      updateOverviewVisibility();
+    });
+
+    [els.monthFilter, els.weekMonthFilter, els.monthReportFilter, els.platformMonthFilter].forEach(select => {
+      select.addEventListener("change", () => {
+        renderEntries();
+        renderWeeks();
+        renderMonthReport();
+        renderPlatformReport();
+      });
+    });
+
+    els.entryForm.addEventListener("submit", event => event.preventDefault());
+    els.detailForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const entry = formData();
+      const index = state.entries.findIndex(item => item.id === entry.id);
+      if (index >= 0) state.entries[index] = { ...state.entries[index], ...entry };
+      else {
+        const sameDateIndex = state.entries.findIndex(item => item.date === entry.date);
+        if (sameDateIndex >= 0) {
+          entry.id = state.entries[sameDateIndex].id;
+          state.entries[sameDateIndex] = { ...state.entries[sameDateIndex], ...entry };
+        } else {
+          state.entries.push(entry);
+        }
+      }
+      saveState();
+      renderAll();
+      resetForm();
+    });
+
+    els.detailForm.addEventListener("input", updateQuickPreview);
+    els.detailForm.addEventListener("change", updateQuickPreview);
+
+    els.incomeInputs.addEventListener("click", event => {
+      const button = event.target.closest("[data-add-income]");
+      if (!button) return;
+      const platform = button.dataset.addIncome;
+      const input = els.incomeInputs.querySelector(`[data-quick-income="${cssEscape(platform)}"]`);
+      addQuickIncome(platform, input);
+    });
+
+    els.incomeInputs.addEventListener("keydown", event => {
+      const input = event.target.closest("[data-quick-income]");
+      if (!input || event.key !== "Enter") return;
+      event.preventDefault();
+      addQuickIncome(input.dataset.quickIncome, input);
+    });
+
+    els.recentIncomeList.addEventListener("click", event => {
+      const updateButton = event.target.closest("[data-update-income-record]");
+      const deleteButton = event.target.closest("[data-delete-income-record]");
+      if (updateButton) updateIncomeRecord(updateButton.dataset.updateIncomeRecord);
+      if (deleteButton) deleteIncomeRecord(deleteButton.dataset.deleteIncomeRecord);
+    });
+
+    document.querySelectorAll("[data-report-view]").forEach(button => {
+      button.addEventListener("click", () => setView(button.dataset.reportView));
+    });
+
+    document.getElementById("driverSpaceLogo").addEventListener("click", () => setView("settings"));
+
+    els.entriesTable.addEventListener("click", event => {
+      const editButton = event.target.closest("[data-edit]");
+      const deleteButton = event.target.closest("[data-delete]");
+      if (editButton) editEntry(editButton.dataset.edit);
+      if (deleteButton) deleteEntry(deleteButton.dataset.delete);
+    });
+
+    document.getElementById("addPlatform").addEventListener("click", () => {
+      const input = document.getElementById("newPlatformName");
+      const name = input.value.trim();
+      if (!name || state.platforms.includes(name)) return;
+      state.platforms.push(name);
+      state.settings.platformRates[name] = defaultPlatformRates[name] || 100;
+      input.value = "";
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("addExpense").addEventListener("click", () => {
+      const input = document.getElementById("newExpenseName");
+      const name = input.value.trim();
+      if (!name || state.expenses.includes(name)) return;
+      state.expenses.push(name);
+      input.value = "";
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("saveGoal").addEventListener("click", () => {
+      state.settings.monthlyGoal = Number(document.getElementById("monthlyGoal").value || 0);
+      state.settings.dailyGoal = Number(document.getElementById("dailyGoal").value || 0);
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("saveRates").addEventListener("click", () => {
+      document.querySelectorAll("[data-platform-rate]").forEach(input => {
+        const rate = Math.min(100, Math.max(0, Number(input.value || 0)));
+        state.settings.platformRates[input.dataset.platformRate] = rate;
+        input.value = rate;
+      });
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("view-settings").addEventListener("click", event => {
+      const platformButton = event.target.closest("[data-remove-platform]");
+      const expenseButton = event.target.closest("[data-remove-expense]");
+      if (platformButton) {
+        const name = platformButton.dataset.removePlatform;
+        state.platforms = state.platforms.filter(platform => platform !== name);
+        delete state.settings.platformRates[name];
+      }
+      if (expenseButton) {
+        state.expenses = state.expenses.filter(name => name !== expenseButton.dataset.removeExpense);
+      }
+      if (platformButton || expenseButton) {
+        saveState();
+        renderAll();
+      }
+    });
+
+    renderAll();
+    resetForm();
+    setView("today");
+    updateOverviewVisibility();
+    setupPwa();
+    window.setInterval(() => {
+      if (activeView !== "today") return;
+      renderStats();
+      updateWorkControls();
+    }, 1000);
+  </script>
+</body>
+</html>
