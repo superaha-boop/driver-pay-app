@@ -1184,7 +1184,10 @@
     }
 
     .today-summary {
-      padding: 11px 15px 10px;
+      min-height: 214px;
+      padding: 14px 18px 12px;
+      display: flex;
+      flex-direction: column;
       border-radius: 20px;
       color: #fff;
       background: var(--brand-strong);
@@ -1193,24 +1196,24 @@
 
     .today-summary-label {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       color: rgba(255, 255, 255, .72);
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 600;
     }
 
     .today-income {
       display: block;
       overflow-wrap: anywhere;
-      font-size: clamp(38px, 12vw, 56px);
+      font-size: clamp(50px, 14vw, 64px);
       line-height: 1;
       letter-spacing: -.055em;
       font-variant-numeric: tabular-nums;
     }
 
     .today-secondary {
-      margin-top: 9px;
-      padding-top: 8px;
+      margin-top: 10px;
+      padding-top: 9px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
@@ -1225,15 +1228,52 @@
       display: block;
       margin-bottom: 3px;
       color: rgba(255, 255, 255, .7);
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .today-secondary strong {
       display: block;
-      font-size: 24px;
+      font-size: clamp(26px, 7vw, 32px);
       line-height: 1.12;
       letter-spacing: -.02em;
       font-variant-numeric: tabular-nums;
+    }
+
+    .today-goal {
+      margin-top: auto;
+      padding-top: 10px;
+      display: grid;
+      gap: 5px;
+    }
+
+    .today-goal-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .today-goal-top strong {
+      font-size: 14px;
+    }
+
+    .today-goal-top span {
+      color: rgba(255, 255, 255, .78);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .today-goal-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .today-goal-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: rgba(255, 255, 255, .94);
     }
 
     .layout,
@@ -1506,37 +1546,29 @@
       transform: scale(.96);
     }
 
-    .weather-control {
-      min-height: 52px;
-      padding: 6px 9px;
+    .direct-choice-field {
+      grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      align-items: center;
-      gap: 8px;
-      border-radius: 8px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+      gap: 7px;
     }
 
-    .weather-label {
+    .direct-choice-label {
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 750;
+      font-size: 13px;
     }
 
-    .weather-options {
+    .direct-choice-options {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 4px;
-      min-width: 0;
+      gap: 6px;
     }
 
-    .weather-choice {
-      min-height: 38px;
-      padding: 0 5px;
+    .direct-choice {
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 4px;
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 11px;
       color: var(--text);
       background: #fff;
       font-size: 13px;
@@ -1544,49 +1576,14 @@
       white-space: nowrap;
     }
 
-    .weather-choice.active {
+    .direct-choice.active {
       color: #fff;
       border-color: var(--brand);
       background: var(--brand);
     }
 
-    .goal-card {
-      padding: 11px 13px;
-      gap: 8px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .goal-top,
-    .goal-bottom {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .goal-top span,
-    .goal-bottom span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .goal-top strong {
-      font-size: 15px;
-    }
-
-    .goal-track {
-      height: 7px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: var(--panel-2);
-    }
-
-    .goal-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: var(--brand);
+    .choice-value-control {
+      display: none;
     }
 
     .recent-list {
@@ -1954,6 +1951,11 @@
     }
 
     @media (max-width: 350px) {
+      .today-secondary strong {
+        font-size: 22px;
+        white-space: nowrap;
+      }
+
       .platform-income-row {
         grid-template-columns: 126px minmax(96px, 1fr) 42px;
         gap: 3px;
@@ -2088,19 +2090,6 @@
           </div>
         </div>
 
-        <div class="weather-control" id="workWeatherControl">
-          <span class="weather-label">天氣</span>
-          <div class="weather-options" aria-label="選擇目前天氣">
-            <button class="weather-choice" type="button" data-weather-choice="晴天">晴天</button>
-            <button class="weather-choice" type="button" data-weather-choice="陰天">陰天</button>
-            <button class="weather-choice" type="button" data-weather-choice="雨天">雨天</button>
-            <button class="weather-choice" type="button" data-weather-choice="大雨">大雨</button>
-            <button class="weather-choice" type="button" data-weather-choice="其他">其他</button>
-          </div>
-        </div>
-
-        <div class="goal-card" id="dailyGoalCard"></div>
-
         <div class="panel details-panel">
           <div class="panel-head">
             <h3 id="formTitle">更新今日紀錄</h3>
@@ -2141,22 +2130,38 @@
                   <label>小費
                     <input type="number" inputmode="numeric" id="tips" min="0" step="1" value="0">
                   </label>
-                  <label>班別
-                    <select id="shift">
+                  <div class="direct-choice-field">
+                    <span class="direct-choice-label">班別</span>
+                    <div class="direct-choice-options" role="group" aria-label="選擇班別">
+                      <button class="direct-choice" type="button" data-detail-choice="shift" data-choice-value="早班">早班</button>
+                      <button class="direct-choice" type="button" data-detail-choice="shift" data-choice-value="午班">午班</button>
+                      <button class="direct-choice" type="button" data-detail-choice="shift" data-choice-value="晚班">晚班</button>
+                      <button class="direct-choice" type="button" data-detail-choice="shift" data-choice-value="大夜班">大夜班</button>
+                      <button class="direct-choice" type="button" data-detail-choice="shift" data-choice-value="全天">全天</button>
+                    </div>
+                    <select class="choice-value-control" id="shift" aria-hidden="true" tabindex="-1">
                       <option>早班</option><option>午班</option><option>晚班</option><option>大夜班</option><option>全天</option>
                     </select>
-                  </label>
+                  </div>
                   <label>訂單數
                     <input type="number" inputmode="numeric" id="orders" min="0" step="1" value="0">
                   </label>
                   <label>公里數
                     <input type="number" inputmode="decimal" id="km" min="0" step="0.1" value="0">
                   </label>
-                  <label>天氣
-                    <select id="weather">
+                  <div class="direct-choice-field">
+                    <span class="direct-choice-label">天氣</span>
+                    <div class="direct-choice-options" role="group" aria-label="選擇天氣">
+                      <button class="direct-choice" type="button" data-detail-choice="weather" data-choice-value="晴天">晴天</button>
+                      <button class="direct-choice" type="button" data-detail-choice="weather" data-choice-value="陰天">陰天</button>
+                      <button class="direct-choice" type="button" data-detail-choice="weather" data-choice-value="雨天">雨天</button>
+                      <button class="direct-choice" type="button" data-detail-choice="weather" data-choice-value="大雨">大雨</button>
+                      <button class="direct-choice" type="button" data-detail-choice="weather" data-choice-value="其他">其他</button>
+                    </div>
+                    <select class="choice-value-control" id="weather" aria-hidden="true" tabindex="-1">
                       <option value="" disabled selected>請選擇</option><option>晴天</option><option>陰天</option><option>雨天</option><option>大雨</option><option>其他</option>
                     </select>
-                  </label>
+                  </div>
                   <label style="grid-column: 1 / -1;">備註
                     <textarea id="note" placeholder="例如：雨天單多、機場單、車況、塞車路段"></textarea>
                   </label>
@@ -2351,7 +2356,6 @@
       toggleOverview: document.getElementById("toggleOverview"),
       summaryStats: document.getElementById("summaryStats"),
       quickPreview: document.getElementById("quickPreview"),
-      dailyGoalCard: document.getElementById("dailyGoalCard"),
       incomeInputs: document.getElementById("incomeInputs"),
       expenseInputs: document.getElementById("expenseInputs"),
       entryForm: document.getElementById("entryForm"),
@@ -2381,7 +2385,6 @@
       workTotal: document.getElementById("workTotal"),
       workBreak: document.getElementById("workBreak"),
       workActual: document.getElementById("workActual"),
-      workWeatherControl: document.getElementById("workWeatherControl"),
       recentIncomeList: document.getElementById("recentIncomeList"),
       recentIncomePanel: document.getElementById("recentIncomePanel"),
       sideNet: document.getElementById("sideNet"),
@@ -2653,8 +2656,11 @@
             <div><span>今日實際工時</span><strong>${formatHours(todaySummary.hours)}</strong></div>
             <div><span>目前時薪</span><strong>${money(todaySummary.hourly)}</strong></div>
           </div>
+          <div class="today-goal" id="dailyGoalCard" aria-label="今日目標進度"></div>
         </article>
       `;
+
+      updateDailyGoal(todayEntry[0] || blankEntry());
 
       els.sideNet.textContent = money(monthSummary.net);
       els.heroNet.textContent = money(monthSummary.net);
@@ -2717,22 +2723,21 @@
     }
 
     function updateDailyGoal(entry = entryForDate() || blankEntry()) {
-      if (!els.dailyGoalCard) return;
+      const dailyGoalCard = document.getElementById("dailyGoalCard");
+      if (!dailyGoalCard) return;
       const goal = Number(state.settings.dailyGoal || 0);
       const current = entryTotal(entry);
       if (!goal) {
-        els.dailyGoalCard.innerHTML = `
-          <div class="goal-top"><strong>今日目標</strong><span>尚未設定</span></div>
-          <div class="goal-bottom"><span>目前收入</span><strong>${money(current)}</strong></div>
+        dailyGoalCard.innerHTML = `
+          <div class="today-goal-top"><strong>今日目標</strong><span>尚未設定</span></div>
         `;
         return;
       }
       const diff = goal - current;
       const percent = Math.max(0, Math.round(current / goal * 100));
-      els.dailyGoalCard.innerHTML = `
-        <div class="goal-top"><strong>今日目標 ${money(goal)}</strong><span>${percent}%</span></div>
-        <div class="goal-track"><div class="goal-fill" style="width:${Math.min(100, percent)}%"></div></div>
-        <div class="goal-bottom"><span>目前 ${money(current)}</span><strong>${diff > 0 ? `尚差 ${money(diff)}` : "已達標"}</strong></div>
+      dailyGoalCard.innerHTML = `
+        <div class="today-goal-top"><strong>今日目標 ${money(goal)}</strong><span>${percent}%・${diff > 0 ? `尚差 ${money(diff)}` : "已達標"}</span></div>
+        <div class="today-goal-track"><div class="today-goal-fill" style="width:${Math.min(100, percent)}%"></div></div>
       `;
     }
 
@@ -3040,10 +3045,6 @@
       els.workBreak.textContent = clockDuration(details.breakMs);
       els.workActual.textContent = clockDuration(details.hours * 3600000);
       els.workMetrics.classList.remove("hidden");
-      els.workWeatherControl.classList.remove("hidden");
-      document.querySelectorAll("[data-weather-choice]").forEach(button => {
-        button.classList.toggle("active", button.dataset.weatherChoice === entry?.weather);
-      });
       els.startRun.classList.toggle("hidden", !["idle", "stopped"].includes(status));
       els.startRun.textContent = status === "stopped" ? "再次開始工作" : "開始工作";
       els.pauseRun.classList.toggle("hidden", status !== "running");
@@ -3053,7 +3054,8 @@
 
     function updateCurrentWeather(weather) {
       if (!weather) return;
-      const entry = ensureEntryForDate();
+      const date = document.getElementById("date").value || todayString();
+      const entry = ensureEntryForDate(date);
       const previous = entry.weather || "";
       entry.weatherHistory = Array.isArray(entry.weatherHistory) ? entry.weatherHistory : [];
       if (!entry.weatherHistory.length && previous && previous !== weather) {
@@ -3068,9 +3070,32 @@
       }
       const weatherSelect = document.getElementById("weather");
       if (weatherSelect) weatherSelect.value = weather;
+      els.entryId.value = entry.id;
       saveState();
-      updateWorkControls();
+      syncDetailChoiceButtons();
+      if (date === todayString()) updateWorkControls();
       renderEntries();
+    }
+
+    function updateCurrentShift(shift) {
+      if (!shift) return;
+      const date = document.getElementById("date").value || todayString();
+      const entry = ensureEntryForDate(date);
+      entry.shift = shift;
+      document.getElementById("shift").value = shift;
+      els.entryId.value = entry.id;
+      saveState();
+      syncDetailChoiceButtons();
+      renderEntries();
+    }
+
+    function syncDetailChoiceButtons() {
+      document.querySelectorAll("[data-detail-choice]").forEach(button => {
+        const control = document.getElementById(button.dataset.detailChoice);
+        const active = control?.value === button.dataset.choiceValue;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
     }
 
     function compactDuration(ms) {
@@ -3136,6 +3161,7 @@
       els.formTitle.textContent = "更新今日紀錄";
       els.cancelEdit.classList.add("hidden");
       document.querySelectorAll("#detailForm details").forEach(details => details.open = false);
+      syncDetailChoiceButtons();
       updateQuickPreview();
     }
 
@@ -3152,13 +3178,11 @@
       document.getElementById("km").value = entry.km || 0;
       const weatherSelect = document.getElementById("weather");
       const weatherValue = entry.weather || "";
-      if (weatherValue && !Array.from(weatherSelect.options).some(option => option.value === weatherValue)) {
-        weatherSelect.add(new Option(weatherValue, weatherValue));
-      }
       weatherSelect.value = weatherValue;
       document.getElementById("note").value = entry.note || "";
       document.querySelectorAll("[data-income]").forEach(input => input.value = entry.incomes?.[input.dataset.income] || 0);
       document.querySelectorAll("[data-expense]").forEach(input => input.value = entry.expenses?.[input.dataset.expense] || 0);
+      syncDetailChoiceButtons();
     }
 
     function editEntry(id) {
@@ -3458,10 +3482,6 @@
     els.pauseRun.addEventListener("click", pauseRunNow);
     els.resumeRun.addEventListener("click", resumeRunNow);
     els.endRun.addEventListener("click", endRunNow);
-    els.workWeatherControl.addEventListener("click", event => {
-      const button = event.target.closest("[data-weather-choice]");
-      if (button) updateCurrentWeather(button.dataset.weatherChoice);
-    });
     els.toggleOverview.addEventListener("click", () => {
       overviewVisible = !overviewVisible;
       updateOverviewVisibility();
@@ -3498,8 +3518,14 @@
 
     els.detailForm.addEventListener("input", updateQuickPreview);
     els.detailForm.addEventListener("change", updateQuickPreview);
-    document.getElementById("weather").addEventListener("change", event => {
-      if (event.target.value) updateCurrentWeather(event.target.value);
+    els.detailForm.addEventListener("click", event => {
+      const button = event.target.closest("[data-detail-choice]");
+      if (!button) return;
+      const field = button.dataset.detailChoice;
+      const value = button.dataset.choiceValue;
+      if (field === "weather") updateCurrentWeather(value);
+      if (field === "shift") updateCurrentShift(value);
+      updateQuickPreview();
     });
 
     els.incomeInputs.addEventListener("focusin", event => {
