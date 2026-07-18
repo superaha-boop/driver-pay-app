@@ -1656,19 +1656,57 @@
     .details-panel .panel-body,
     .details-panel form,
     .details-panel .quick-fields,
-    .details-panel .quick-fields label {
+    .details-panel .quick-fields .date-row {
       width: 100%;
       min-width: 0;
       max-width: 100%;
     }
 
-    .details-panel input[type="date"] {
+    .details-panel .quick-fields .date-row {
+      min-height: 50px;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #dce4df;
+      border-radius: 13px;
+      background: #fafcfb;
+    }
+
+    .date-row-label {
+      color: #7e8982;
+      font-size: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .details-panel .date-row input[type="date"] {
       display: block;
       width: 100%;
       min-width: 0;
       max-width: 100%;
+      min-height: 48px;
       box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      color: #17211b;
+      background: transparent;
+      box-shadow: none;
+      font-size: 21px;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .details-panel .date-row input[type="date"]:focus {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .details-panel .date-row input[type="date"]::-webkit-date-and-time-value {
+      text-align: right;
     }
 
     .quick-preview {
@@ -2098,8 +2136,9 @@
           <div class="panel-body">
             <form id="detailForm">
               <div class="fields quick-fields">
-                <label>日期
-                  <input type="date" id="date" required>
+                <label class="date-row">
+                  <span class="date-row-label">日期</span>
+                  <input type="date" id="date" required aria-label="日期">
                 </label>
               </div>
               <div class="quick-preview" id="quickPreview"></div>
