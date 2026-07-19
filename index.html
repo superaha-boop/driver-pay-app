@@ -1243,37 +1243,30 @@
       margin-top: auto;
       padding-top: 10px;
       display: grid;
-      gap: 5px;
+      gap: 7px;
     }
 
-    .today-goal-top {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .today-goal-top strong {
-      font-size: 14px;
-    }
-
-    .today-goal-top span {
+    .today-goal-status {
+      justify-self: end;
       color: rgba(255, 255, 255, .78);
       font-size: 12px;
       font-weight: 650;
+      line-height: 1.2;
+      text-align: right;
     }
 
     .today-goal-track {
-      height: 7px;
+      height: 8px;
       overflow: hidden;
       border-radius: 999px;
-      background: rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .24);
     }
 
     .today-goal-fill {
       height: 100%;
       border-radius: inherit;
-      background: rgba(255, 255, 255, .94);
+      background: rgba(255, 255, 255, .96);
+      transition: width .25s ease;
     }
 
     .layout,
@@ -2832,15 +2825,25 @@
       const current = entryTotal(entry);
       if (!goal) {
         dailyGoalCard.innerHTML = `
-          <div class="today-goal-top"><strong>今日目標</strong><span>尚未設定</span></div>
+          <div class="today-goal-status">尚未設定今日目標</div>
+          <div class="today-goal-track" role="progressbar" aria-label="今日目標進度" aria-disabled="true">
+            <div class="today-goal-fill" style="width:0%"></div>
+          </div>
         `;
         return;
       }
-      const diff = goal - current;
       const percent = Math.max(0, Math.round(current / goal * 100));
+      const progress = Math.min(100, percent);
+      const status = current === goal
+        ? "已達成 100%"
+        : current > goal
+          ? `達成 ${percent}%・超標 ${money(current - goal)}`
+          : `達成 ${percent}%・尚差 ${money(goal - current)}`;
       dailyGoalCard.innerHTML = `
-        <div class="today-goal-top"><strong>今日目標 ${money(goal)}</strong><span>${percent}%・${diff > 0 ? `尚差 ${money(diff)}` : "已達標"}</span></div>
-        <div class="today-goal-track"><div class="today-goal-fill" style="width:${Math.min(100, percent)}%"></div></div>
+        <div class="today-goal-status">${status}</div>
+        <div class="today-goal-track" role="progressbar" aria-label="今日目標進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}" aria-valuetext="${escapeAttr(status)}">
+          <div class="today-goal-fill" style="width:${progress}%"></div>
+        </div>
       `;
     }
 
