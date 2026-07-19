@@ -1266,7 +1266,6 @@
       height: 100%;
       border-radius: inherit;
       background: rgba(255, 255, 255, .96);
-      transition: width .25s ease;
     }
 
     .layout,
@@ -1921,6 +1920,27 @@
         white-space: nowrap;
       }
 
+      .daily-entry-weather {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        flex: 0 0 20px;
+        align-items: center;
+        justify-content: center;
+        color: #7e8982;
+      }
+
+      .daily-entry-weather svg {
+        width: 19px;
+        height: 19px;
+        display: block;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
       .daily-entry-bottom {
         min-width: 0;
         margin-top: 7px;
@@ -1982,9 +2002,207 @@
       }
     }
 
-    .ai-panel {
-      min-height: 320px;
-      padding: 24px;
+    body[data-active-view="ai"] .topbar {
+      display: none;
+    }
+
+    .ai-dashboard {
+      min-width: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .ai-page-intro {
+      padding: 4px 3px 2px;
+    }
+
+    .ai-page-intro h2 {
+      margin: 0;
+      color: #17211b;
+      font-size: 26px;
+      letter-spacing: -.025em;
+    }
+
+    .ai-page-intro p {
+      margin: 5px 0 0;
+      color: #68736e;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .ai-insight-card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .ai-insight-card.primary {
+      color: #fff;
+      border-color: transparent;
+      background: var(--brand-strong);
+      box-shadow: none;
+    }
+
+    .ai-section-head {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ai-section-head h3 {
+      margin: 0;
+      color: #17211b;
+      font-size: 18px;
+    }
+
+    .ai-insight-card.primary .ai-section-head h3 {
+      color: #fff;
+    }
+
+    .ai-section-kicker {
+      color: #7e8982;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .ai-insight-card.primary .ai-section-kicker {
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .ai-advice-list,
+    .ai-alert-list {
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+      list-style: none;
+    }
+
+    .ai-advice-list li,
+    .ai-alert-list li {
+      position: relative;
+      padding-left: 14px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .ai-advice-list li::before,
+    .ai-alert-list li::before {
+      content: "";
+      position: absolute;
+      top: .65em;
+      left: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: .55;
+    }
+
+    .ai-insight-card.primary .ai-advice-list li {
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .ai-empty-state {
+      margin: 0;
+      color: #7e8982;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .ai-insight-card.primary .ai-empty-state {
+      color: rgba(255, 255, 255, .78);
+    }
+
+    .ai-month-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .ai-metric {
+      min-width: 0;
+      padding: 11px;
+      display: grid;
+      gap: 4px;
+      border-radius: 12px;
+      background: #f4f7f5;
+    }
+
+    .ai-metric span {
+      color: #7e8982;
+      font-size: 12px;
+    }
+
+    .ai-metric strong {
+      min-width: 0;
+      color: #203128;
+      font-size: 15px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .ai-platform-list {
+      display: grid;
+    }
+
+    .ai-platform-row {
+      min-width: 0;
+      padding: 10px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: baseline;
+      gap: 10px;
+      border-bottom: 1px solid #e3e9e5;
+    }
+
+    .ai-platform-row:first-child {
+      padding-top: 0;
+    }
+
+    .ai-platform-row:last-child {
+      border-bottom: 0;
+    }
+
+    .ai-platform-row strong {
+      min-width: 0;
+      color: #203128;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ai-platform-amount {
+      color: #203128;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .ai-platform-share {
+      min-width: 38px;
+      color: #7e8982;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .ai-platform-summary {
+      margin: 10px 0 0;
+      padding-top: 11px;
+      color: #68736e;
+      border-top: 1px solid #edf1ef;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 700px) {
+      .ai-month-metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     .driver-space-note {
@@ -2333,10 +2551,39 @@
       </section>
 
       <section id="view-ai" class="view hidden">
-        <div class="panel ai-panel">
-          <div class="ai-mark">AI</div>
-          <h3>AI 分析功能開發中</h3>
-          <p>未來將根據收入、工時、平台與時段，給出最佳跑車建議，例如哪個時段最好賺、哪個平台效率最高、每日建議上線時間。</p>
+        <div class="ai-dashboard">
+          <header class="ai-page-intro">
+            <h2>AI 營運助理</h2>
+            <p>根據你的收入與工時紀錄提供分析</p>
+          </header>
+          <section class="ai-insight-card primary" aria-labelledby="aiTodayTitle">
+            <div class="ai-section-head">
+              <h3 id="aiTodayTitle">今日建議</h3>
+              <span class="ai-section-kicker">即時營運</span>
+            </div>
+            <div id="aiTodayAdvice"></div>
+          </section>
+          <section class="ai-insight-card" aria-labelledby="aiMonthTitle">
+            <div class="ai-section-head">
+              <h3 id="aiMonthTitle">本月洞察</h3>
+              <span class="ai-section-kicker">本月累計</span>
+            </div>
+            <div class="ai-month-metrics" id="aiMonthInsights"></div>
+          </section>
+          <section class="ai-insight-card" aria-labelledby="aiPlatformTitle">
+            <div class="ai-section-head">
+              <h3 id="aiPlatformTitle">平台表現</h3>
+              <span class="ai-section-kicker">收入占比</span>
+            </div>
+            <div id="aiPlatformInsights"></div>
+          </section>
+          <section class="ai-insight-card" aria-labelledby="aiAlertsTitle">
+            <div class="ai-section-head">
+              <h3 id="aiAlertsTitle">智慧提醒</h3>
+              <span class="ai-section-kicker">規則偵測</span>
+            </div>
+            <div id="aiAlerts"></div>
+          </section>
         </div>
       </section>
 
@@ -2424,7 +2671,7 @@
       week: ["週報表", "比較每一週總額、工時、時薪與淨收入。"],
       month: ["月報表", "追蹤整個月份收入、成本與目標進度。"],
       platform: ["平台分析", "看出 Uber、LINE GO、Yoxi、55688 與其他來源的表現。"],
-      ai: ["AI 分析", "預留未來最佳跑車建議與收入效率分析。"],
+      ai: ["AI 營運助理", "根據你的收入與工時紀錄提供分析"],
       settings: ["Driver Space", "調整平台、支出類別與收入目標。"]
     };
 
@@ -2453,6 +2700,10 @@
       goalProgress: document.getElementById("goalProgress"),
       platformBars: document.getElementById("platformBars"),
       platformTable: document.getElementById("platformTable"),
+      aiTodayAdvice: document.getElementById("aiTodayAdvice"),
+      aiMonthInsights: document.getElementById("aiMonthInsights"),
+      aiPlatformInsights: document.getElementById("aiPlatformInsights"),
+      aiAlerts: document.getElementById("aiAlerts"),
       platformChips: document.getElementById("platformChips"),
       platformRateInputs: document.getElementById("platformRateInputs"),
       expenseChips: document.getElementById("expenseChips"),
@@ -2556,6 +2807,32 @@
       const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
       const weekday = weekdays[new Date(year, month - 1, day).getDay()];
       return `${month}/${day}（${weekday}）`;
+    }
+
+    function weatherIconSvg(weather) {
+      const label = String(weather || "").trim();
+      const iconType = {
+        晴天: "sun",
+        多雲: "cloud-sun",
+        晴時多雲: "cloud-sun",
+        陰天: "cloud",
+        雨天: "cloud-rain",
+        大雨: "cloud-rain",
+        雷雨: "cloud-lightning",
+        霧天: "cloud-fog"
+      }[label];
+      if (!iconType) return "";
+
+      const paths = {
+        sun: `<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>`,
+        "cloud-sun": `<path d="M12 2v2M4.93 4.93l1.42 1.42M20 12h2M17.66 6.34l1.41-1.41"></path><path d="M15.4 9.6A4 4 0 0 0 8.1 12"></path><path d="M17.5 19H9a5 5 0 1 1 4.4-7.4A4 4 0 1 1 17.5 19Z"></path>`,
+        cloud: `<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>`,
+        "cloud-rain": `<path d="M16 13v8M8 13v8M12 15v8"></path><path d="M17.5 11H9a5 5 0 1 1 4.4-7.4A4 4 0 1 1 17.5 11Z"></path>`,
+        "cloud-lightning": `<path d="M17.5 11H9a5 5 0 1 1 4.4-7.4A4 4 0 1 1 17.5 11Z"></path><path d="m13 11-4 6h6l-4 6"></path>`,
+        "cloud-fog": `<path d="M17.5 11H9a5 5 0 1 1 4.4-7.4A4 4 0 1 1 17.5 11Z"></path><path d="M5 15h14M7 19h10M9 23h6"></path>`
+      };
+
+      return `<span class="daily-entry-weather"><svg viewBox="0 0 24 24" role="img" aria-label="${escapeAttr(label)}"><title>${escapeHtml(label)}</title>${paths[iconType]}</svg></span>`;
     }
 
     function entryIncome(entry) {
@@ -2683,6 +2960,284 @@
       const orders = entries.reduce((sum, entry) => sum + Number(entry.orders || 0), 0);
       const net = total - expenses;
       return { total, tips, expenses, hours, orders, net, hourly: hours ? net / hours : 0 };
+    }
+
+    function finiteNumber(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function nonNegativeNumber(value) {
+      return Math.max(0, finiteNumber(value));
+    }
+
+    function analysisPlatformRate(name) {
+      return Math.min(100, Math.max(0, finiteNumber(state.settings.platformRates?.[name] ?? defaultPlatformRates[name] ?? 100)));
+    }
+
+    function analysisPlatformIncome(entry, name) {
+      return nonNegativeNumber(entry?.incomes?.[name]) * analysisPlatformRate(name) / 100;
+    }
+
+    function analysisEntryTotal(entry) {
+      if (!entry) return 0;
+      const platformIncome = state.platforms.reduce((sum, name) => sum + analysisPlatformIncome(entry, name), 0);
+      return platformIncome + nonNegativeNumber(entry.tips);
+    }
+
+    function analysisEntryExpenses(entry) {
+      if (!entry?.expenses || typeof entry.expenses !== "object") return 0;
+      return Object.values(entry.expenses).reduce((sum, value) => sum + nonNegativeNumber(value), 0);
+    }
+
+    function analysisEntryHours(entry) {
+      if (!entry) return 0;
+      try {
+        const hours = nonNegativeNumber(calcHours(entry));
+        return hours >= 1 / 60 ? hours : 0;
+      } catch (error) {
+        return 0;
+      }
+    }
+
+    function analysisSummary(entries) {
+      const total = entries.reduce((sum, entry) => sum + analysisEntryTotal(entry), 0);
+      const expenses = entries.reduce((sum, entry) => sum + analysisEntryExpenses(entry), 0);
+      const hours = entries.reduce((sum, entry) => sum + analysisEntryHours(entry), 0);
+      const net = total - expenses;
+      return { total, expenses, hours, net, hourly: hours > 0 ? net / hours : 0 };
+    }
+
+    function analysisPlatformRows(entries) {
+      const rows = state.platforms.map(name => {
+        const amount = entries.reduce((sum, entry) => sum + analysisPlatformIncome(entry, name), 0);
+        return { name, amount };
+      }).filter(row => row.amount > 0).sort((a, b) => b.amount - a.amount);
+      const total = rows.reduce((sum, row) => sum + row.amount, 0);
+      return rows.map(row => ({
+        ...row,
+        share: total > 0 ? Math.round(row.amount / total * 100) : 0
+      }));
+    }
+
+    function validAnalysisEntries() {
+      return state.entries.filter(entry => {
+        return entry && typeof entry.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(entry.date);
+      });
+    }
+
+    function bestIncomeDay(entries) {
+      return entries.map(entry => ({ entry, amount: analysisEntryTotal(entry) }))
+        .filter(item => item.amount > 0)
+        .sort((a, b) => b.amount - a.amount || b.entry.date.localeCompare(a.entry.date))[0] || null;
+    }
+
+    function bestIncomeShift(entries) {
+      const totals = new Map();
+      entries.forEach(entry => {
+        const shift = String(entry.shift || "").trim();
+        const amount = analysisEntryTotal(entry);
+        if (!shift || amount <= 0) return;
+        totals.set(shift, (totals.get(shift) || 0) + amount);
+      });
+      return [...totals.entries()].sort((a, b) => b[1] - a[1])[0] || null;
+    }
+
+    function fuelExpenseTotal(entry) {
+      if (!entry?.expenses || typeof entry.expenses !== "object") return 0;
+      return Object.entries(entry.expenses).reduce((sum, [name, value]) => {
+        return /油|電費|充電|燃料/.test(name) ? sum + nonNegativeNumber(value) : sum;
+      }, 0);
+    }
+
+    function recentRisingPlatform(entries) {
+      const ordered = entries.slice().sort((a, b) => a.date.localeCompare(b.date));
+      if (ordered.length < 4) return null;
+      const recentSize = Math.min(3, Math.floor(ordered.length / 2));
+      const recent = ordered.slice(-recentSize);
+      const earlier = ordered.slice(0, -recentSize);
+      const recentRows = analysisPlatformRows(recent);
+      const earlierRows = analysisPlatformRows(earlier);
+      const recentShares = new Map(recentRows.map(row => [row.name, row.share]));
+      const earlierShares = new Map(earlierRows.map(row => [row.name, row.share]));
+      return state.platforms.map(name => ({
+        name,
+        increase: (recentShares.get(name) || 0) - (earlierShares.get(name) || 0),
+        recentAmount: recentRows.find(row => row.name === name)?.amount || 0
+      })).filter(item => item.recentAmount > 0 && item.increase >= 10)
+        .sort((a, b) => b.increase - a.increase)[0] || null;
+    }
+
+    function hasRecentIncomeDecline(entries) {
+      const recent = entries.slice().sort((a, b) => a.date.localeCompare(b.date)).slice(-3);
+      if (recent.length < 3) return false;
+      const totals = recent.map(analysisEntryTotal);
+      return totals[0] > totals[1] && totals[1] > totals[2];
+    }
+
+    function buildAiAnalysisContext() {
+      const entries = validAnalysisEntries();
+      const monthEntries = entries.filter(entry => entry.date.startsWith(currentMonth()));
+      const todayEntry = entries.find(entry => entry.date === todayString()) || null;
+      const monthSummary = analysisSummary(monthEntries);
+      return {
+        entries,
+        monthEntries,
+        monthSummary,
+        todayEntry,
+        todaySummary: analysisSummary(todayEntry ? [todayEntry] : []),
+        monthPlatforms: analysisPlatformRows(monthEntries),
+        bestDay: bestIncomeDay(monthEntries),
+        bestShift: bestIncomeShift(monthEntries),
+        risingPlatform: recentRisingPlatform(monthEntries)
+      };
+    }
+
+    function buildTodayAdvice(context) {
+      const { todayEntry, todaySummary, monthSummary } = context;
+      if (!todayEntry) {
+        return {
+          empty: "今天尚無完整營運紀錄，完成收入與工時輸入後即可查看建議。",
+          items: []
+        };
+      }
+
+      const items = [];
+      const add = message => {
+        if (message && !items.includes(message)) items.push(message);
+      };
+      const todayHours = analysisEntryHours(todayEntry);
+      const todayHourly = todayHours > 0 ? (todaySummary.net / todayHours) : 0;
+      const topPlatform = analysisPlatformRows([todayEntry])[0];
+      const dailyGoal = nonNegativeNumber(state.settings.dailyGoal);
+
+      if (todayHours >= 12) add(`今日已工作 ${number(todayHours)} 小時，工時偏長，建議安排休息。`);
+      if (todaySummary.total <= 0) add("今天尚未輸入收入，完成平台收入後才能評估營運效率。");
+
+      if (todayHours > 0 && monthSummary.hours > 0) {
+        const monthHourly = monthSummary.hourly;
+        if (todayHourly > monthHourly * 1.1) add(`今日時薪 ${money(todayHourly)}，高於本月平均 ${money(monthHourly)}。`);
+        else if (todayHourly < monthHourly * .9) add(`今日時薪 ${money(todayHourly)}，低於本月平均 ${money(monthHourly)}。`);
+        else add(`今日時薪 ${money(todayHourly)}，與本月平均 ${money(monthHourly)} 接近。`);
+      } else if (todayHours <= 0) {
+        add("今天尚未輸入完整工時，暫時無法計算時薪。");
+      }
+
+      if (dailyGoal > 0) {
+        const percent = Math.max(0, Math.round(todaySummary.total / dailyGoal * 100));
+        if (todaySummary.total < dailyGoal) add(`今日目標已達成 ${percent}%，尚差 ${money(dailyGoal - todaySummary.total)}。`);
+        else if (todaySummary.total === dailyGoal) add("今日收入已達成每日目標 100%。");
+        else add(`今日收入達成 ${percent}%，已超標 ${money(todaySummary.total - dailyGoal)}。`);
+      }
+
+      if (topPlatform) add(`${escapeHtml(topPlatform.name)} 是今日主要收入平台，貢獻 ${money(topPlatform.amount)}。`);
+      if (nonNegativeNumber(todayEntry.km) <= 0) add("今天尚未輸入里程，補上後可更完整評估每公里收益。");
+      if (fuelExpenseTotal(todayEntry) <= 0) add("今天尚未輸入油錢或電費，淨收入可能尚未完整。");
+
+      return { empty: "", items: items.slice(0, 4) };
+    }
+
+    function buildSmartAlerts(context) {
+      const { monthEntries, monthSummary, todayEntry, todaySummary, risingPlatform } = context;
+      const alerts = [];
+      const add = message => {
+        if (message && !alerts.includes(message)) alerts.push(message);
+      };
+
+      if (monthSummary.hourly > 0) {
+        const lowDay = monthEntries.map(entry => {
+          const hours = analysisEntryHours(entry);
+          const hourly = hours > 0 ? (analysisEntryTotal(entry) - analysisEntryExpenses(entry)) / hours : 0;
+          return { entry, hours, hourly };
+        }).filter(item => item.hours > 0 && item.hourly < monthSummary.hourly * .7)
+          .sort((a, b) => a.hourly - b.hourly)[0];
+        if (lowDay) add(`${compactDailyDate(lowDay.entry.date)} 時薪 ${money(lowDay.hourly)}，明顯低於本月平均。`);
+      }
+
+      const longDay = monthEntries.map(entry => ({ entry, hours: analysisEntryHours(entry) }))
+        .filter(item => item.hours >= 12).sort((a, b) => b.hours - a.hours)[0];
+      if (longDay) add(`${compactDailyDate(longDay.entry.date)} 工作 ${number(longDay.hours)} 小時，單日工時偏長。`);
+
+      const ordered = monthEntries.slice().sort((a, b) => a.date.localeCompare(b.date));
+      for (let index = 1; index < ordered.length; index += 1) {
+        const previousDate = new Date(`${ordered[index - 1].date}T00:00:00`);
+        const currentDate = new Date(`${ordered[index].date}T00:00:00`);
+        const consecutive = currentDate.getTime() - previousDate.getTime() === 86400000;
+        if (consecutive && analysisEntryHours(ordered[index - 1]) >= 10 && analysisEntryHours(ordered[index]) >= 10) {
+          add(`${compactDailyDate(ordered[index - 1].date)} 至 ${compactDailyDate(ordered[index].date)} 連續兩天工時偏長。`);
+          break;
+        }
+      }
+
+      if (todayEntry && nonNegativeNumber(todayEntry.km) <= 0) add("今天缺少里程資料。");
+      if (todayEntry && fuelExpenseTotal(todayEntry) <= 0) add("今天缺少油錢或電費資料。");
+      if (hasRecentIncomeDecline(monthEntries)) add("最近三筆每日收入呈下降趨勢，建議留意時段與平台配置。");
+      if (risingPlatform) add(`${risingPlatform.name} 近期收入占比增加 ${risingPlatform.increase} 個百分點。`);
+
+      const dailyGoal = nonNegativeNumber(state.settings.dailyGoal);
+      if (dailyGoal > 0 && todaySummary.total < dailyGoal) add(`今日目標尚差 ${money(dailyGoal - todaySummary.total)}。`);
+      const monthlyGoal = nonNegativeNumber(state.settings.monthlyGoal);
+      if (monthlyGoal > 0 && monthSummary.net < monthlyGoal) add(`本月淨收入目標尚差 ${money(monthlyGoal - monthSummary.net)}。`);
+
+      return alerts.slice(0, 6);
+    }
+
+    function renderAnalysisList(items, className, emptyText) {
+      if (!items.length) return `<p class="ai-empty-state">${escapeHtml(emptyText)}</p>`;
+      return `<ul class="${className}">${items.map(item => `<li>${item}</li>`).join("")}</ul>`;
+    }
+
+    function renderAiAnalysis() {
+      if (!els.aiTodayAdvice) return;
+      const context = buildAiAnalysisContext();
+      const todayAdvice = buildTodayAdvice(context);
+      const hasMonthData = context.monthEntries.length > 0;
+      const monthlyGoal = nonNegativeNumber(state.settings.monthlyGoal);
+      const monthlyGoalText = !hasMonthData || monthlyGoal <= 0
+        ? "資料不足"
+        : context.monthSummary.net < monthlyGoal
+          ? `尚差 ${money(monthlyGoal - context.monthSummary.net)}`
+          : context.monthSummary.net === monthlyGoal
+            ? "已達成"
+            : `已超標 ${money(context.monthSummary.net - monthlyGoal)}`;
+      const monthMetrics = [
+        ["本月總收入", hasMonthData ? money(context.monthSummary.total) : "資料不足"],
+        ["本月平均時薪", context.monthSummary.hours > 0 ? money(context.monthSummary.hourly) : "資料不足"],
+        ["最佳收入日", context.bestDay ? `${compactDailyDate(context.bestDay.entry.date)} ${money(context.bestDay.amount)}` : "資料不足"],
+        ["最佳班別", context.bestShift ? `${escapeHtml(context.bestShift[0])} ${money(context.bestShift[1])}` : "資料不足"],
+        ["最高收入平台", context.monthPlatforms[0] ? `${escapeHtml(context.monthPlatforms[0].name)} ${money(context.monthPlatforms[0].amount)}` : "資料不足"],
+        ["本月目標", monthlyGoalText]
+      ];
+
+      els.aiTodayAdvice.innerHTML = todayAdvice.empty
+        ? `<p class="ai-empty-state">${escapeHtml(todayAdvice.empty)}</p>`
+        : renderAnalysisList(todayAdvice.items, "ai-advice-list", "今天尚無可分析資料。");
+      els.aiMonthInsights.innerHTML = monthMetrics.map(([label, value]) => `
+        <div class="ai-metric"><span>${label}</span><strong>${value}</strong></div>
+      `).join("");
+
+      if (!context.monthPlatforms.length) {
+        els.aiPlatformInsights.innerHTML = `<p class="ai-empty-state">本月尚無平台收入資料。</p>`;
+      } else {
+        const top = context.monthPlatforms[0];
+        const rising = context.risingPlatform;
+        const platformSummary = `${top.name} 是本月主要收入來源，占平台收入 ${top.share}%。${rising ? ` ${rising.name} 在近期紀錄的收入占比增加。` : ""}`;
+        els.aiPlatformInsights.innerHTML = `
+          <div class="ai-platform-list">
+            ${context.monthPlatforms.map(row => `
+              <div class="ai-platform-row">
+                <strong>${escapeHtml(row.name)}</strong>
+                <span class="ai-platform-amount">${money(row.amount)}</span>
+                <span class="ai-platform-share">${row.share}%</span>
+              </div>
+            `).join("")}
+          </div>
+          <p class="ai-platform-summary">${escapeHtml(platformSummary)}</p>
+        `;
+      }
+
+      const alerts = buildSmartAlerts(context);
+      els.aiAlerts.innerHTML = renderAnalysisList(alerts.map(escapeHtml), "ai-alert-list", "目前沒有需要特別注意的異常紀錄。");
     }
 
     function renderInputs() {
@@ -2821,9 +3376,9 @@
     function updateDailyGoal(entry = entryForDate() || blankEntry()) {
       const dailyGoalCard = document.getElementById("dailyGoalCard");
       if (!dailyGoalCard) return;
-      const goal = Number(state.settings.dailyGoal || 0);
-      const current = entryTotal(entry);
-      if (!goal) {
+      const goal = finiteNumber(state.settings.dailyGoal);
+      const current = nonNegativeNumber(entryTotal(entry));
+      if (goal <= 0) {
         dailyGoalCard.innerHTML = `
           <div class="today-goal-status">尚未設定今日目標</div>
           <div class="today-goal-track" role="progressbar" aria-label="今日目標進度" aria-disabled="true">
@@ -2915,7 +3470,8 @@
         </table>
         <div class="entries-mobile-list" aria-label="每日月份明細">
           ${entries.map(entry => {
-            const meta = [entry.shift, entry.weather].filter(Boolean).join("・") || "未設定";
+            const shift = String(entry.shift || "").trim();
+            const weatherIcon = weatherIconSvg(entry.weather);
             const activePlatforms = state.platforms
               .map(name => [name, Number(entry.incomes?.[name] || 0)])
               .filter(([, amount]) => amount > 0);
@@ -2924,7 +3480,8 @@
                 <div class="daily-entry-head">
                   <div class="daily-entry-title">
                     <strong class="daily-entry-date">${escapeHtml(compactDailyDate(entry.date))}</strong>
-                    <span class="daily-entry-meta">・${escapeHtml(meta)}</span>
+                    ${shift ? `<span class="daily-entry-meta">・${escapeHtml(shift)}</span>` : ""}
+                    ${weatherIcon ? `<span class="daily-entry-meta">・</span>${weatherIcon}` : ""}
                   </div>
                   <strong class="daily-entry-total">${money(entryTotal(entry))}</strong>
                 </div>
@@ -3228,6 +3785,7 @@
       renderWeeks();
       renderMonthReport();
       renderPlatformReport();
+      renderAiAnalysis();
     }
 
     function renderAll() {
@@ -3238,6 +3796,7 @@
       renderWeeks();
       renderMonthReport();
       renderPlatformReport();
+      renderAiAnalysis();
       renderSettings();
       renderRecentIncome();
       updateWorkControls();
@@ -3246,6 +3805,7 @@
 
     function setView(view) {
       activeView = view;
+      if (view === "ai") renderAiAnalysis();
       document.querySelectorAll(".view").forEach(section => section.classList.add("hidden"));
       document.getElementById(`view-${view}`).classList.remove("hidden");
       const navView = view === "month" ? "platform" : view;
@@ -3535,6 +4095,7 @@
       renderWeeks();
       renderMonthReport();
       renderPlatformReport();
+      renderAiAnalysis();
     }
 
     function startYoxiAdd(platform) {
