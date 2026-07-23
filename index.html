@@ -763,6 +763,34 @@
       margin-top: 18px;
     }
 
+    .expense-shortcut-settings {
+      display: grid;
+      gap: 12px;
+    }
+
+    .expense-shortcut-settings label {
+      display: grid;
+      gap: 7px;
+    }
+
+    .expense-shortcut-settings select {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .expense-shortcut-settings-note,
+    .expense-shortcut-settings-status {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .expense-shortcut-settings-status {
+      min-height: 18px;
+      color: var(--brand-strong);
+    }
+
     .ai-panel {
       min-height: 360px;
       display: grid;
@@ -1648,6 +1676,7 @@
     .smart-expense-form {
       display: grid;
       gap: 20px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
     }
 
     #expenseInputs [hidden] {
@@ -1675,18 +1704,19 @@
 
     .expense-quick-button {
       min-width: 0;
-      min-height: 68px;
-      padding: 8px 4px;
+      min-height: 60px;
+      padding: 6px 4px;
       display: grid;
       place-items: center;
       align-content: center;
-      gap: 4px;
+      gap: 3px;
       border: 1px solid #dce4df;
       border-radius: 14px;
       color: #33413a;
       background: #fff;
       font-size: 13px;
       font-weight: 750;
+      line-height: 1.15;
     }
 
     .expense-quick-button.active {
@@ -1695,9 +1725,16 @@
       background: #eaf7f1;
     }
 
+    .expense-quick-button span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .expense-quick-icon {
-      width: 23px;
-      height: 23px;
+      width: 21px;
+      height: 21px;
       color: #087653;
       fill: none;
       stroke: currentColor;
@@ -1758,6 +1795,46 @@
       gap: 6px;
     }
 
+    .expense-compact-row {
+      width: 100%;
+      min-width: 0;
+      min-height: 54px;
+      padding: 0 14px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid #dce4df;
+      border-radius: 14px;
+      color: #17211d;
+      background: #fafcfb;
+      text-align: left;
+    }
+
+    .expense-compact-row-label {
+      color: #68736e;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .expense-compact-row strong {
+      min-width: 0;
+      overflow: hidden;
+      color: #203128;
+      font-size: 16px;
+      font-weight: 750;
+      text-align: right;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .expense-compact-row-action {
+      color: #087653;
+      font-size: 13px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
     .expense-mode-option {
       min-width: 0;
       min-height: 50px;
@@ -1775,6 +1852,10 @@
       color: #087653;
       border-color: #15966f;
       background: #e3f5ed;
+    }
+
+    .expense-compact-row + .expense-mode-options {
+      margin-top: 8px;
     }
 
     .date-card {
@@ -1806,6 +1887,15 @@
       line-height: 1.15;
       text-align: center;
       pointer-events: none;
+    }
+
+    .date-card.inline-date .date-card-copy {
+      display: block;
+    }
+
+    .date-card.inline-date .date-card-value {
+      font-size: 21px;
+      font-weight: 650;
     }
 
     .date-card-value {
@@ -2037,13 +2127,14 @@
     }
 
     .expense-save-button {
-      min-height: 52px;
+      min-height: 56px;
       width: 100%;
-      border-radius: 13px;
+      border-radius: 16px;
       color: #fff;
       background: #15966f;
-      font-size: 17px;
-      font-weight: 800;
+      font-size: 21px;
+      font-weight: 700;
+      scroll-margin-bottom: calc(96px + env(safe-area-inset-bottom));
     }
 
     .expense-save-button:active {
@@ -2054,6 +2145,80 @@
       color: #8b9690;
       background: #e5eae7;
       cursor: not-allowed;
+    }
+
+    .expense-recent {
+      display: grid;
+      gap: 8px;
+    }
+
+    .expense-recent-label {
+      color: #68736e;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .expense-recent-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .expense-recent-pill {
+      min-height: 38px;
+      padding: 0 13px;
+      border: 1px solid #dce4df;
+      border-radius: 999px;
+      color: #33413a;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .expense-recent-pill.selected {
+      color: #087653;
+      border-color: #15966f;
+      background: #eaf7f1;
+    }
+
+    .expense-note-area {
+      display: grid;
+      gap: 9px;
+    }
+
+    .expense-note-toggle {
+      width: fit-content;
+      min-height: 44px;
+      padding: 0 2px;
+      color: #087653;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 750;
+      text-align: left;
+    }
+
+    .expense-note-field {
+      display: grid;
+      gap: 7px;
+      color: #68736e;
+      font-size: 13px;
+    }
+
+    .expense-note-field input {
+      width: 100%;
+      min-width: 0;
+      min-height: 50px;
+      padding: 0 13px;
+      border: 1px solid #dce4df;
+      border-radius: 13px;
+      color: #17211d;
+      background: #fafcfb;
+      font-size: 16px;
+    }
+
+    #smartExpenseAmount {
+      scroll-margin-bottom: calc(96px + env(safe-area-inset-bottom));
     }
 
     .expense-form-status {
@@ -3008,6 +3173,19 @@
         <div class="layout">
           <div class="panel">
             <div class="panel-head">
+              <h3>快捷支出設定</h3>
+            </div>
+            <div class="panel-body">
+              <div class="expense-shortcut-settings" id="expenseShortcutSettings"></div>
+              <div class="settings-actions">
+                <button class="button secondary" id="restoreExpenseShortcuts" type="button">恢復預設</button>
+              </div>
+              <p class="expense-shortcut-settings-status" id="expenseShortcutStatus" role="status"></p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
               <h3>收入平台</h3>
             </div>
             <div class="panel-body">
@@ -3076,6 +3254,7 @@
       ["其他", ["罰單", "其他"]]
     ];
     const smartExpenseCategories = expenseCategoryGroups.flatMap(([, categories]) => categories);
+    const defaultExpenseShortcuts = ["油錢／電費", "停車費", "洗車"];
     const expenseModeDefaults = {
       "油錢／電費": "one_time",
       "油錢/電費": "one_time",
@@ -3130,6 +3309,7 @@
     let overviewVisible = false;
     let expenseDraft = createExpenseDraft();
     let expenseToastTimer = 0;
+    let expenseShortcutStatus = "";
 
     const titles = {
       today: ["今日輸入", "每天花一分鐘記錄收入、工時與支出。"],
@@ -3174,6 +3354,8 @@
       platformChips: document.getElementById("platformChips"),
       platformRateInputs: document.getElementById("platformRateInputs"),
       expenseChips: document.getElementById("expenseChips"),
+      expenseShortcutSettings: document.getElementById("expenseShortcutSettings"),
+      expenseShortcutStatus: document.getElementById("expenseShortcutStatus"),
       startRun: document.getElementById("startRun"),
       pauseRun: document.getElementById("pauseRun"),
       resumeRun: document.getElementById("resumeRun"),
@@ -3227,8 +3409,24 @@
         monthlyGoal: Number(settings.monthlyGoal || 0),
         dailyGoal: Number(settings.dailyGoal || 0),
         timeDetailsOpen: Boolean(settings.timeDetailsOpen),
+        expenseShortcuts: normalizeExpenseShortcuts(settings.expenseShortcuts),
         platformRates
       };
+    }
+
+    function normalizeExpenseShortcuts(shortcuts) {
+      const values = Array.isArray(shortcuts) ? shortcuts : [];
+      const result = [];
+      [...values, ...defaultExpenseShortcuts, ...smartExpenseCategories].forEach(value => {
+        const category = String(value || "").trim();
+        const identity = expenseCategoryIdentity(category);
+        if (category && !result.some(existing => expenseCategoryIdentity(existing) === identity) && result.length < 3) result.push(category);
+      });
+      return result;
+    }
+
+    function expenseCategoryIdentity(category) {
+      return String(category || "").trim().replaceAll("／", "/");
     }
 
     function saveState() {
@@ -3372,7 +3570,8 @@
         weatherHistory: [],
         note: "",
         incomes: {},
-        expenses: {}
+        expenses: {},
+        expenseNotes: {}
       };
     }
 
@@ -3388,6 +3587,7 @@
       }
       entry.incomes ||= {};
       entry.expenses ||= {};
+      entry.expenseNotes ||= {};
       return entry;
     }
 
@@ -3713,13 +3913,14 @@
       return `${Number(match[1])}年${Number(match[2])}月${Number(match[3])}日`;
     }
 
-    function dateCardMarkup({ id, value, label, required = false }) {
+    function dateCardMarkup({ id, value, label, required = false, inlineToday = false }) {
       const isToday = value === todayString();
+      const displayValue = inlineToday && isToday ? `今天・${formatFullDate(value)}` : formatFullDate(value);
       return `
-        <label class="date-card" for="${escapeAttr(id)}">
+        <label class="date-card${inlineToday ? " inline-date" : ""}" for="${escapeAttr(id)}">
           <span class="date-card-copy">
-            <strong class="date-card-value" data-date-display>${escapeHtml(formatFullDate(value))}</strong>
-            <small class="date-card-today" data-date-today${isToday ? "" : " hidden"}>今天</small>
+            <strong class="date-card-value" data-date-display${inlineToday ? " data-date-inline" : ""}>${escapeHtml(displayValue)}</strong>
+            ${inlineToday ? "" : `<small class="date-card-today" data-date-today${isToday ? "" : " hidden"}>今天</small>`}
           </span>
           <input type="date" id="${escapeAttr(id)}" value="${escapeAttr(value)}" aria-label="${escapeAttr(label)}"${required ? " required" : ""}>
         </label>
@@ -3736,7 +3937,12 @@
       if (!card) return;
       const display = card.querySelector("[data-date-display]");
       const today = card.querySelector("[data-date-today]");
-      if (display) display.textContent = formatFullDate(input.value);
+      if (display) {
+        const isInline = display.hasAttribute("data-date-inline");
+        display.textContent = isInline && input.value === todayString()
+          ? `今天・${formatFullDate(input.value)}`
+          : formatFullDate(input.value);
+      }
       if (today) today.hidden = input.value !== todayString();
     }
 
@@ -3770,6 +3976,10 @@
         startMonth: safeDate.slice(0, 7),
         startMonthChanged: false,
         advancedOpen: false,
+        categoryOpen: false,
+        modeOpen: false,
+        noteOpen: false,
+        note: "",
         status,
         statusType
       };
@@ -3784,16 +3994,16 @@
       });
     }
 
-    function expenseCategoryOptionsMarkup() {
+    function expenseCategoryOptionsMarkup(selectedCategory = expenseDraft.category) {
       const groups = expenseCategoryGroups.map(([label, categories]) => `
         <optgroup label="${escapeAttr(label)}">
-          ${categories.map(name => `<option value="${escapeAttr(name)}"${name === expenseDraft.category ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}
+          ${categories.map(name => `<option value="${escapeAttr(name)}"${name === selectedCategory ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}
         </optgroup>
       `).join("");
       const legacy = legacyExpenseCategories();
       return `${groups}${legacy.length ? `
         <optgroup label="既有分類">
-          ${legacy.map(name => `<option value="${escapeAttr(name)}"${name === expenseDraft.category ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}
+          ${legacy.map(name => `<option value="${escapeAttr(name)}"${name === selectedCategory ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}
         </optgroup>
       ` : ""}`;
     }
@@ -3840,13 +4050,66 @@
       return Math.max(0, Number(entryForDate(date)?.expenses?.[category] || 0));
     }
 
+    function existingExpenseNote(category = expenseDraft.category, date = expenseDraft.paymentDate) {
+      if (!category || !date) return "";
+      return String(entryForDate(date)?.expenseNotes?.[category] || "").slice(0, 160);
+    }
+
+    function recentExpenseAmounts(category = expenseDraft.category) {
+      if (!category) return [];
+      const seen = new Set();
+      const amounts = [];
+      state.entries
+        .filter(entry => /^\d{4}-\d{2}-\d{2}$/.test(entry.date || ""))
+        .slice()
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .forEach(entry => {
+          const amount = Math.round(Number(entry.expenses?.[category] || 0));
+          if (Number.isFinite(amount) && amount > 0 && !seen.has(amount) && amounts.length < 3) {
+            seen.add(amount);
+            amounts.push(amount);
+          }
+        });
+      return amounts;
+    }
+
+    function expenseModeLabel(mode = expenseDraft.mode) {
+      return {
+        one_time: "一次支出",
+        recurring: "每月固定",
+        allocated: "分月計算"
+      }[mode] || "一次支出";
+    }
+
+    function expenseShortcutLabel(category) {
+      return category === "油錢／電費" || category === "油錢/電費" ? "油錢" : category;
+    }
+
+    function expenseQuickIconType(category) {
+      if (category === "油錢／電費" || category === "油錢/電費" || category === "燃料稅") return "fuel";
+      if (category === "停車費" || category === "停車月租") return "parking";
+      if (category === "洗車") return "wash";
+      if (category === "過路費") return "road";
+      if (["租車費", "靠行費", "註冊費"].includes(category)) return "calendar";
+      if (["汽車保險", "保險", "牌照稅"].includes(category)) return "shield";
+      if (["輪胎", "定期保養", "保養", "大型維修", "驗車費", "驗車"].includes(category)) return "tools";
+      if (category === "罰單") return "notice";
+      return "receipt";
+    }
+
     function expenseQuickIcon(type) {
       const paths = {
         fuel: '<path d="M4 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16"></path><path d="M6 8h7"></path><path d="M15 7h2l3 3v7a2 2 0 0 1-4 0v-5"></path><path d="M3 21h13"></path>',
         parking: '<circle cx="12" cy="12" r="9"></circle><path d="M10 17V7h3a3 3 0 0 1 0 6h-3"></path>',
-        wash: '<path d="M5 16h14l-1.5-5h-11L5 16Z"></path><path d="M7 16v3M17 16v3M4 19h16"></path><path d="M8 7l1-2M12 7V4M16 7l-1-2"></path>'
+        wash: '<path d="M5 16h14l-1.5-5h-11L5 16Z"></path><path d="M7 16v3M17 16v3M4 19h16"></path><path d="M8 7l1-2M12 7V4M16 7l-1-2"></path>',
+        road: '<path d="M8 21l2-18M16 21L14 3M12 5v3M12 11v3M12 17v3"></path>',
+        calendar: '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M8 3v4M16 3v4M3 10h18"></path>',
+        shield: '<path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3Z"></path><path d="M9 12l2 2 4-4"></path>',
+        tools: '<path d="M14.5 6.5a4 4 0 0 0-5-5L12 4 9 7 6.5 4.5a4 4 0 0 0 5 5L18 16a2 2 0 1 0 3-3l-6.5-6.5Z"></path><path d="M7 12l-4 4a2 2 0 0 0 3 3l4-4"></path>',
+        notice: '<path d="M12 3l9 17H3L12 3Z"></path><path d="M12 9v5M12 17h.01"></path>',
+        receipt: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"></path><path d="M9 8h6M9 12h6"></path>'
       };
-      return `<svg class="expense-quick-icon" viewBox="0 0 24 24" aria-hidden="true">${paths[type]}</svg>`;
+      return `<svg class="expense-quick-icon" viewBox="0 0 24 24" aria-hidden="true">${paths[type] || paths.receipt}</svg>`;
     }
 
     function recurringExpenseMarkup(amount) {
@@ -3923,45 +4186,75 @@
       const amount = Math.max(0, Number(expenseDraft.amount || 0));
       const months = selectedExpenseMonths();
       const existingAmount = existingExpenseAmount();
+      const recentAmounts = recentExpenseAmounts();
+      const shortcuts = normalizeExpenseShortcuts(state.settings.expenseShortcuts);
       const modes = [["one_time", "一次支出"], ["recurring", "每月固定"], ["allocated", "分月計算"]];
       els.expenseInputs.innerHTML = `
         <div class="smart-expense-form">
           <section>
             <span class="expense-section-label">快捷新增</span>
             <div class="expense-quick-actions" role="group" aria-label="快捷新增支出">
-              <button class="expense-quick-button${expenseDraft.category === "油錢／電費" && expenseDraft.mode === "one_time" ? " active" : ""}" type="button" data-expense-quick="油錢／電費" aria-pressed="${String(expenseDraft.category === "油錢／電費" && expenseDraft.mode === "one_time")}">${expenseQuickIcon("fuel")}<span>油錢</span></button>
-              <button class="expense-quick-button${expenseDraft.category === "停車費" && expenseDraft.mode === "one_time" ? " active" : ""}" type="button" data-expense-quick="停車費" aria-pressed="${String(expenseDraft.category === "停車費" && expenseDraft.mode === "one_time")}">${expenseQuickIcon("parking")}<span>停車費</span></button>
-              <button class="expense-quick-button${expenseDraft.category === "洗車" && expenseDraft.mode === "one_time" ? " active" : ""}" type="button" data-expense-quick="洗車" aria-pressed="${String(expenseDraft.category === "洗車" && expenseDraft.mode === "one_time")}">${expenseQuickIcon("wash")}<span>洗車</span></button>
+              ${shortcuts.map(category => `
+                <button class="expense-quick-button${expenseDraft.category === category ? " active" : ""}" type="button" data-expense-quick="${escapeAttr(category)}" aria-pressed="${String(expenseDraft.category === category)}">
+                  ${expenseQuickIcon(expenseQuickIconType(category))}
+                  <span>${escapeHtml(expenseShortcutLabel(category))}</span>
+                </button>
+              `).join("")}
             </div>
           </section>
 
           <div class="smart-expense-primary">
-            <label class="smart-expense-field">支出類別
-              <select id="smartExpenseCategory" aria-label="支出類別">
-                <option value="">選擇支出類別</option>
-                ${expenseCategoryOptionsMarkup()}
-              </select>
-            </label>
+            ${expenseDraft.category && !expenseDraft.categoryOpen ? `
+              <button class="expense-compact-row" type="button" data-expense-toggle-category aria-expanded="false">
+                <span class="expense-compact-row-label">支出類別</span>
+                <strong>${escapeHtml(expenseDraft.category)}</strong>
+                <span class="expense-compact-row-action">更改</span>
+              </button>
+            ` : `
+              <label class="smart-expense-field">支出類別
+                <select id="smartExpenseCategory" aria-label="支出類別">
+                  <option value="">選擇支出類別</option>
+                  ${expenseCategoryOptionsMarkup()}
+                </select>
+              </label>
+            `}
             <label class="smart-expense-field">金額
               <span class="expense-amount-wrap">
                 <span class="expense-amount-prefix" aria-hidden="true">$</span>
                 <input class="expense-amount-input" type="text" inputmode="numeric" pattern="[0-9,]*" id="smartExpenseAmount" value="${escapeAttr(formatExpenseAmount(expenseDraft.amount))}" placeholder="輸入金額" aria-label="支出金額" autocomplete="off">
               </span>
             </label>
+            ${recentAmounts.length ? `
+              <div class="expense-recent">
+                <span class="expense-recent-label">最近使用</span>
+                <div class="expense-recent-pills">
+                  ${recentAmounts.map(value => `<button class="expense-recent-pill" type="button" data-expense-recent-amount="${value}">$${escapeHtml(formatExpenseAmount(value))}</button>`).join("")}
+                </div>
+              </div>
+            ` : ""}
             <div>
-              <span class="expense-section-label">支出方式</span>
-              <div class="expense-mode-options" role="group" aria-label="支出方式">
+              <button class="expense-compact-row" type="button" data-expense-toggle-mode aria-expanded="${String(expenseDraft.modeOpen)}">
+                <span class="expense-compact-row-label">支出方式</span>
+                <strong>${escapeHtml(expenseModeLabel())}</strong>
+                <span class="expense-compact-row-action">修改</span>
+              </button>
+              <div class="expense-mode-options"${expenseDraft.modeOpen ? "" : " hidden"} role="group" aria-label="支出方式">
                 ${modes.map(([value, label]) => `<button class="expense-mode-option${expenseDraft.mode === value ? " active" : ""}" type="button" data-expense-mode="${value}" aria-pressed="${String(expenseDraft.mode === value)}">${label}</button>`).join("")}
               </div>
-            </div>
-            <div>
-              <span class="expense-section-label">付款日期</span>
-              ${dateCardMarkup({ id: "smartExpenseDate", value: expenseDraft.paymentDate, label: "付款日期" })}
             </div>
           </div>
 
           ${expenseDraft.mode === "recurring" ? recurringExpenseMarkup(amount) : ""}
           ${expenseDraft.mode === "allocated" ? allocatedExpenseMarkup(amount, months) : ""}
+          ${dateCardMarkup({ id: "smartExpenseDate", value: expenseDraft.paymentDate, label: "付款日期", inlineToday: true })}
+          <div class="expense-note-area">
+            <button class="expense-note-toggle" type="button" data-expense-toggle-note aria-expanded="${String(expenseDraft.noteOpen)}">${expenseDraft.noteOpen ? "－ 收起備註" : "＋ 加入備註"}</button>
+            ${expenseDraft.noteOpen ? `
+              <label class="expense-note-field">備註
+                <input type="text" id="smartExpenseNote" maxlength="160" value="${escapeAttr(expenseDraft.note)}" placeholder="輸入地點或補充說明" autocomplete="off">
+              </label>
+            ` : ""}
+          </div>
           <span class="expense-existing-hint" id="expenseExistingHint"${existingAmount ? "" : " hidden"}>這天已有 ${money(existingAmount)}，儲存後會更新此類別。</span>
           <button class="expense-save-button" type="button" id="saveSmartExpense"${amount > 0 ? "" : " disabled"}>儲存支出</button>
           <p class="expense-form-status${expenseDraft.statusType === "error" ? " error" : ""}" id="expenseFormStatus" role="status">${escapeHtml(expenseDraft.status)}</p>
@@ -4003,6 +4296,9 @@
     }
 
     function selectExpenseCategory(category, focusAmount = false) {
+      const sameCategory = expenseDraft.category === category;
+      const currentNote = expenseDraft.note;
+      const currentNoteOpen = expenseDraft.noteOpen;
       expenseDraft.category = category;
       expenseDraft.mode = suggestedExpenseMode(category);
       const months = suggestedExpenseMonths(category);
@@ -4014,6 +4310,10 @@
       expenseDraft.recurringDay = Number(expenseDraft.paymentDate.slice(-2));
       expenseDraft.startMonthChanged = false;
       expenseDraft.advancedOpen = false;
+      expenseDraft.categoryOpen = false;
+      expenseDraft.modeOpen = false;
+      expenseDraft.note = sameCategory ? currentNote : existingExpenseNote(category, expenseDraft.paymentDate);
+      expenseDraft.noteOpen = sameCategory ? currentNoteOpen : false;
       expenseDraft.status = "";
       expenseDraft.statusType = "";
       const existingAmount = existingExpenseAmount(category, expenseDraft.paymentDate);
@@ -4031,6 +4331,7 @@
     function selectExpenseMode(mode) {
       if (!["one_time", "recurring", "allocated"].includes(mode)) return;
       expenseDraft.mode = mode;
+      expenseDraft.modeOpen = false;
       expenseDraft.advancedOpen = false;
       if (mode === "allocated" && selectedExpenseMonths() < 2) {
         const months = suggestedExpenseMonths(expenseDraft.category);
@@ -4056,6 +4357,17 @@
         if (/\d/.test(formatted[nextCursor])) remaining -= 1;
       }
       input.setSelectionRange(nextCursor, nextCursor);
+    }
+
+    function selectRecentExpenseAmount(amount, button) {
+      const value = Math.round(Number(amount || 0));
+      if (!Number.isFinite(value) || value <= 0) return;
+      expenseDraft.amount = String(value);
+      const input = document.getElementById("smartExpenseAmount");
+      if (input) input.value = formatExpenseAmount(value);
+      updateExpensePreview();
+      button?.classList.add("selected");
+      window.setTimeout(() => button?.classList.remove("selected"), 450);
     }
 
     function saveSmartExpense() {
@@ -4107,6 +4419,10 @@
 
       const entry = ensureEntryForDate(paymentDate);
       entry.expenses[category] = Math.round(amount);
+      entry.expenseNotes ||= {};
+      const note = String(expenseDraft.note || "").trim().slice(0, 160);
+      if (note) entry.expenseNotes[category] = note;
+      else delete entry.expenseNotes[category];
       if (!state.expenses.includes(category)) state.expenses.push(category);
       saveState();
 
@@ -4493,6 +4809,15 @@
       `;
     }
 
+    function expenseShortcutOptionsMarkup(selectedCategory) {
+      const categories = [];
+      [...smartExpenseCategories, ...state.expenses, ...state.settings.expenseShortcuts].forEach(category => {
+        const name = String(category || "").trim();
+        if (name && !categories.includes(name)) categories.push(name);
+      });
+      return categories.map(name => `<option value="${escapeAttr(name)}"${name === selectedCategory ? " selected" : ""}>${escapeHtml(name)}</option>`).join("");
+    }
+
     function renderSettings() {
       els.platformChips.innerHTML = state.platforms.map(name => chip(name, "platform")).join("");
       els.platformRateInputs.innerHTML = state.platforms.map(name => `
@@ -4501,6 +4826,19 @@
         </label>
       `).join("");
       els.expenseChips.innerHTML = state.expenses.map(name => chip(name, "expense")).join("");
+      if (els.expenseShortcutSettings) {
+        els.expenseShortcutSettings.innerHTML = `
+          <p class="expense-shortcut-settings-note">固定保留三個位置；選擇後立即儲存，三個類別不可重複。</p>
+          ${state.settings.expenseShortcuts.map((category, index) => `
+            <label>快捷 ${index + 1}
+              <select data-expense-shortcut-index="${index}" aria-label="快捷 ${index + 1} 支出類別">
+                ${expenseShortcutOptionsMarkup(category)}
+              </select>
+            </label>
+          `).join("")}
+        `;
+      }
+      if (els.expenseShortcutStatus) els.expenseShortcutStatus.textContent = expenseShortcutStatus;
       document.getElementById("monthlyGoal").value = state.settings.monthlyGoal || "";
       document.getElementById("dailyGoal").value = state.settings.dailyGoal || "";
     }
@@ -5135,6 +5473,9 @@
       if (event.target.id === "expenseRecurringEndMonth") {
         expenseDraft.recurringEndMonth = event.target.value;
       }
+      if (event.target.id === "smartExpenseNote") {
+        expenseDraft.note = event.target.value.slice(0, 160);
+      }
     });
 
     els.expenseInputs.addEventListener("change", event => {
@@ -5152,6 +5493,10 @@
     els.expenseInputs.addEventListener("click", event => {
       const quick = event.target.closest("[data-expense-quick]");
       const mode = event.target.closest("[data-expense-mode]");
+      const categoryToggle = event.target.closest("[data-expense-toggle-category]");
+      const modeToggle = event.target.closest("[data-expense-toggle-mode]");
+      const noteToggle = event.target.closest("[data-expense-toggle-note]");
+      const recentAmount = event.target.closest("[data-expense-recent-amount]");
       const endType = event.target.closest("[data-expense-end-type]");
       const toggle = event.target.closest("[data-expense-toggle-settings]");
       const duration = event.target.closest("[data-expense-duration]");
@@ -5162,6 +5507,29 @@
       }
       if (mode) {
         selectExpenseMode(mode.dataset.expenseMode);
+        return;
+      }
+      if (categoryToggle) {
+        expenseDraft.categoryOpen = true;
+        renderExpenseForm();
+        window.requestAnimationFrame(() => document.getElementById("smartExpenseCategory")?.focus());
+        return;
+      }
+      if (modeToggle) {
+        expenseDraft.modeOpen = !expenseDraft.modeOpen;
+        renderExpenseForm();
+        return;
+      }
+      if (noteToggle) {
+        expenseDraft.noteOpen = !expenseDraft.noteOpen;
+        renderExpenseForm();
+        if (expenseDraft.noteOpen) {
+          window.requestAnimationFrame(() => document.getElementById("smartExpenseNote")?.focus());
+        }
+        return;
+      }
+      if (recentAmount) {
+        selectRecentExpenseAmount(recentAmount.dataset.expenseRecentAmount, recentAmount);
         return;
       }
       if (endType) {
@@ -5188,6 +5556,11 @@
         return;
       }
       if (saveButton) saveSmartExpense();
+    });
+
+    els.expenseInputs.addEventListener("focusin", event => {
+      if (event.target.id !== "smartExpenseAmount") return;
+      window.requestAnimationFrame(() => event.target.scrollIntoView({ block: "center", behavior: "smooth" }));
     });
 
     els.expenseInputs.addEventListener("keydown", event => {
@@ -5287,6 +5660,37 @@
       });
       saveState();
       renderAll();
+    });
+
+    document.getElementById("view-settings").addEventListener("change", event => {
+      const shortcutSelect = event.target.closest("[data-expense-shortcut-index]");
+      if (!shortcutSelect) return;
+      const index = Number(shortcutSelect.dataset.expenseShortcutIndex);
+      const category = shortcutSelect.value;
+      const nextShortcuts = state.settings.expenseShortcuts.slice();
+      if (!Number.isInteger(index) || index < 0 || index > 2 || !category) return;
+      if (nextShortcuts.some((value, currentIndex) => currentIndex !== index && expenseCategoryIdentity(value) === expenseCategoryIdentity(category))) {
+        expenseShortcutStatus = "三個快捷不能使用相同類別。";
+        renderSettings();
+        showToast(expenseShortcutStatus);
+        return;
+      }
+      nextShortcuts[index] = category;
+      state.settings.expenseShortcuts = normalizeExpenseShortcuts(nextShortcuts);
+      expenseShortcutStatus = `快捷 ${index + 1} 已更新為「${category}」。`;
+      saveState();
+      renderSettings();
+      renderExpenseForm();
+      showToast("快捷支出已更新");
+    });
+
+    document.getElementById("restoreExpenseShortcuts").addEventListener("click", () => {
+      state.settings.expenseShortcuts = defaultExpenseShortcuts.slice();
+      expenseShortcutStatus = "已恢復預設快捷支出。";
+      saveState();
+      renderSettings();
+      renderExpenseForm();
+      showToast(expenseShortcutStatus);
     });
 
     document.getElementById("view-settings").addEventListener("click", event => {
